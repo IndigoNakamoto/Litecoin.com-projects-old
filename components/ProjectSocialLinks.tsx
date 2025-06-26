@@ -37,6 +37,7 @@ const ProjectSocialLinks = ({
   telegramLink,
   facebookLink,
   redditLink,
+  onHowDonationsWorkClick,
 }) => {
   const projectLinks = [
     { kind: 'website', url: website },
@@ -67,6 +68,22 @@ const ProjectSocialLinks = ({
           </a>
         ) : null
       )}
+      <div
+        onClick={onHowDonationsWorkClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            onHowDonationsWorkClick()
+          }
+        }}
+        role="button"
+        tabIndex={0}
+        className="group flex cursor-pointer items-center space-x-2 text-[#222222] no-underline transition-colors duration-300 hover:font-semibold hover:text-gray-900"
+      >
+        <SocialIcon kind="info" href="#" noLink />
+        <span className="text-md leading-none text-[#222222] group-hover:text-gray-900 group-hover:underline">
+          How Donations Work
+        </span>
+      </div>
     </div>
   )
 }

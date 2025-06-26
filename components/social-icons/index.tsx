@@ -1,5 +1,5 @@
 // components/social-icons/index.tsx
-import { FaLink, FaEnvelope, FaGlobe } from 'react-icons/fa' // FaEnvelope for mail icon
+import { FaLink, FaEnvelope, FaGlobe, FaInfoCircle } from 'react-icons/fa' // FaEnvelope for mail icon
 import {
   SiGithub,
   SiFacebook,
@@ -29,6 +29,7 @@ const components = {
   telegram: SiTelegram,
   website: FaGlobe,
   link: FaLink,
+  info: FaInfoCircle,
 }
 
 interface SocialIconProps {
