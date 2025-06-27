@@ -309,49 +309,6 @@ const Project: NextPage<SingleProjectPageProps> = ({
         const daysLeft = Math.ceil(timeLeft / (1000 * 3600 * 24))
         setTimeLeftInMonth(daysLeft)
       }
-
-      const fetchTwitterUsers = async (usernames: string) => {
-        const response = await fetch(`/api/twitterUsers?usernames=${usernames}`)
-        return response.json()
-      }
-
-      if (isValidUsernames(contributor)) {
-        const contributorsResponse = await fetchTwitterUsers(contributor!)
-        setTwitterContributors(contributorsResponse)
-      }
-
-      if (isValidUsernames(contributorsBitcoin)) {
-        const contributorsBitcoinResponse = await fetchTwitterUsers(
-          contributorsBitcoin!
-        )
-        setTwitterContributorsBitcoin(contributorsBitcoinResponse)
-      }
-
-      if (isValidUsernames(contributorsLitecoin)) {
-        const contributorsLitecoinResponse = await fetchTwitterUsers(
-          contributorsLitecoin!
-        )
-        setTwitterContributorsLitecoin(contributorsLitecoinResponse)
-      }
-
-      if (isValidUsernames(advocates)) {
-        const advocatesResponse = await fetchTwitterUsers(advocates!)
-        setTwitterAdvocates(advocatesResponse)
-      }
-
-      if (stats.supporters && stats.supporters.length > 0) {
-        const supporters = stats.supporters.map((supporter: any) => {
-          if (typeof supporter === 'string' || supporter instanceof String) {
-            return extractUsername(supporter.toString())
-          } else {
-            return 'anonymous'
-          }
-        })
-
-        const uniqueSupporters = Array.from(new Set(supporters)).join(',')
-        const twitterUsersResponse = await fetchTwitterUsers(uniqueSupporters)
-        setTwitterUsers(twitterUsersResponse)
-      }
     }
 
     fetchData().catch(console.error)
