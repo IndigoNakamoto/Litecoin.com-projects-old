@@ -1,5 +1,6 @@
 // /pages/api/getInfoTGB.ts
 
+import { kv } from '@vercel/kv'
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../lib/prisma'
 import Decimal from 'decimal.js'
@@ -36,6 +37,13 @@ export default async function handler(
     }
 
     try {
+      const cacheKey = `tgb-info-${slug}`
+      const cachedData = await kv.get(cacheKey)
+
+      if (cachedData) {
+        return res.status(200).json(cachedData as SuccessResponse)
+      }
+
       const donations: Donation[] = await prisma.donation.findMany({
         where: {
           projectSlug: slug,
@@ -91,12 +99,16 @@ export default async function handler(
       //   return a.handle.localeCompare(b.handle) // Sort alphabetically by handle
       // })
 
-      res.status(200).json({
+      const responseData = {
         funded_txo_sum: totalAmount.toNumber(),
         tx_count: donations.length,
         supporters: supporters,
         donatedCreatedTime: donatedCreatedTime,
-      })
+      }
+
+      await kv.set(`tgb-info-${slug}`, responseData, { ex: 900 }) // Cache for 15 minutes
+
+      res.status(200).json(responseData)
     } catch (err) {
       console.error('Error fetching donation info:', err)
       res.status(500).json({ message: (err as Error).message })
