@@ -43,7 +43,7 @@ export default async function handler(
             in: ['Complete', 'Advanced'], // Filter donations with 'Complete' or 'Advanced' status
           },
           valueAtDonationTimeUSD: {
-            gte: 2.5,
+            gte: 2,
           },
         },
       })
