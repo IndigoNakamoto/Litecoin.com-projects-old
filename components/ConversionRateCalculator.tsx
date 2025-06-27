@@ -55,7 +55,7 @@ const ConversionRateCalculator: React.FC<ConversionRateCalculatorProps> = ({
         const rate = response.data.data.rate
         if (rate) {
           setCryptoRate(rate)
-          setMinDonation(2.5 / rate) // Update crypto min donation based on rate
+          setMinDonation(5 / rate) // Update crypto min donation based on rate
 
           // Update values based on existing inputs
           if (usdInput) {
@@ -213,9 +213,7 @@ const ConversionRateCalculator: React.FC<ConversionRateCalculatorProps> = ({
 
   // Determine if usdInput is below minimum donation
   const isUsdBelowMin =
-    usdInput !== '' &&
-    !isNaN(parseFloat(usdInput)) &&
-    parseFloat(usdInput) < 2.5
+    usdInput !== '' && !isNaN(parseFloat(usdInput)) && parseFloat(usdInput) < 5
 
   // ----------------------------
   // NEW useEffect for toggling the donate button
@@ -309,10 +307,10 @@ const ConversionRateCalculator: React.FC<ConversionRateCalculatorProps> = ({
 
       {isUsdBelowMin ? (
         <p className="mt-1 text-sm font-[600] text-red-500">
-          Minimum donation is $2.50
+          Minimum donation is $5.00
         </p>
       ) : (
-        <p className="mt-1 text-sm text-gray-600">Minimum donation is $2.50</p>
+        <p className="mt-1 text-sm text-gray-600">Minimum donation is $5.00</p>
       )}
 
       {error && <p className="mt-1 text-sm font-[600] text-red-500">{error}</p>}
