@@ -473,7 +473,7 @@ const AllProjects: NextPage = () => {
 
         <div className="flex flex-col items-center pt-16">
           <h1 className="w-full pb-8 pt-8 font-space-grotesk !text-[30px] font-semibold leading-tight tracking-tight text-black">
-            Contributors
+            Project Builders
           </h1>
           <SectionContributors />
         </div>
