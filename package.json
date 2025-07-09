@@ -8,10 +8,11 @@
     "build": "cross-env INIT_CWD=$PWD next build && prisma generate && cross-env NODE_OPTIONS='--experimental-json-modules' node -r esbuild-register ./scripts/postbuild.mjs",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir components --dir lib --dir layouts --dir scripts",
-    "migrate": "ts-node scripts/migrateDonations.ts",
-    "test": "jest",
-    "postinstall": "prisma generate"
+    "postbuild": "next-sitemap",
+    "generate-reports": "ts-node -r tsconfig-paths/register scripts/generate-reports.ts"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -26,6 +27,7 @@
     "@sendgrid/mail": "^7.7.0",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.9",
+    "@types/pdfkit": "^0.14.0",
     "@vercel/analytics": "^1.1.0",
     "@vercel/kv": "^1.0.0",
     "@vercel/postgres": "^0.10.0",
@@ -37,6 +39,7 @@
     "decimal.js": "^10.4.3",
     "dompurify": "^3.1.7",
     "esbuild": "0.17.5",
+    "form-data": "^4.0.3",
     "github-slugger": "^1.4.0",
     "glob-parent": "^5.1.2",
     "gray-matter": "^4.0.2",
@@ -49,6 +52,7 @@
     "next-contentlayer": "0.3.0",
     "next-themes": "^0.2.0",
     "nock": "^13.5.5",
+    "pdfkit": "^0.17.1",
     "pliny": "0.0.10",
     "postcss": "^8.4.16",
     "qrcode.react": "^4.0.1",
@@ -89,6 +93,7 @@
     "@typescript-eslint/parser": "^5.36.2",
     "cross-env": "^7.0.3",
     "dedent": "^0.7.0",
+    "dotenv": "^17.2.0",
     "esbuild-register": "3.4.2",
     "eslint": "^8.23.0",
     "eslint-config-next": "^13.5.4",
@@ -105,6 +110,8 @@
     "prisma": "^5.19.1",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^4.8.3"
   },
   "lint-staged": {
