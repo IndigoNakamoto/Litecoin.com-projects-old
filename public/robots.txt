@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://litecoin.com
+
+# Sitemaps
+Sitemap: https://litecoin.com/sitemap.xml

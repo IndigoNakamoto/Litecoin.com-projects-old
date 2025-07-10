@@ -17,7 +17,7 @@ interface WebflowResponse<T> {
   offset: number
 }
 
-interface Contributor {
+export interface Contributor {
   id: string
   name: string
   slug: string
