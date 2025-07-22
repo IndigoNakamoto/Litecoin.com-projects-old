@@ -1,6 +1,7 @@
 // /pages/api/clearKV.ts
 import { NextApiRequest, NextApiResponse } from 'next'
 import { kv } from '@vercel/kv'
+import { getAllProjects } from '../../utils/webflow'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Only allow POST requests
@@ -22,41 +23,39 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    // Fetch all keys from the KV store using a wildcard pattern
-    const keys = await kv.keys('*')
+    // Clear the contributors cache
+    await kv.del('contributors:all')
+    console.log(
+      `[${new Date().toISOString()}] Cleared 'contributors:all' KV cache.`
+    )
 
-    if (keys.length === 0) {
-      console.log(`[${new Date().toISOString()}] KV store is already empty.`)
-      return res.status(200).json({ message: 'KV store is already empty.' })
+    // Revalidate all project pages
+    const projects = await getAllProjects()
+    if (projects && projects.length > 0) {
+      for (const project of projects) {
+        const slug = project.fieldData.slug
+        if (slug) {
+          await res.revalidate(`/projects/${slug}`)
+          console.log(
+            `[${new Date().toISOString()}] Revalidated project: ${slug}`
+          )
+        }
+      }
     }
 
     console.log(
-      `[${new Date().toISOString()}] Retrieved ${
-        keys.length
-      } keys. Starting deletion.`
+      `[${new Date().toISOString()}] All caches cleared and pages revalidated successfully.`
     )
-
-    // Define batch size to handle large numbers of keys
-    const BATCH_SIZE = 100
-
-    for (let i = 0; i < keys.length; i += BATCH_SIZE) {
-      const batch = keys.slice(i, i + BATCH_SIZE)
-      await Promise.all(batch.map((key) => kv.del(key)))
-      console.log(
-        `[${new Date().toISOString()}] Deleted batch ${i / BATCH_SIZE + 1}`
-      )
-    }
-
-    console.log(
-      `[${new Date().toISOString()}] All KV data cleared successfully.`
-    )
-    return res
-      .status(200)
-      .json({ message: 'All KV data cleared successfully.' })
+    return res.status(200).json({
+      message: 'All caches cleared and pages revalidated successfully.',
+    })
   } catch (error: any) {
-    console.error(`[${new Date().toISOString()}] Error clearing KV:`, error)
+    console.error(
+      `[${new Date().toISOString()}] Error clearing cache and revalidating:`,
+      error
+    )
     return res.status(500).json({
-      error: 'Failed to clear KV data.',
+      error: 'Failed to clear cache and revalidate.',
       details: error.message || 'An unexpected error occurred.',
     })
   }
