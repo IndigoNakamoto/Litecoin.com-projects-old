@@ -1,52 +1,8 @@
 import React from 'react'
-import Image from 'next/image'
-import { customImageLoader } from '../utils/customImageLoader'
 import TypingScroll from './TypingScroll'
-import Link from './Link'
-import SectionDonors from '@/components/SectionDonors'
+import SectionContributors from './SectionContributors'
 
 // Assuming you have images in the /public/static/images/projects/completed/ directory
-const imageDirectory = '/static/images/projects/completed/'
-const images = [
-  // List your images with descriptive alt text for SEO
-  { title: 'Litecoin Core', src: 'core.png', href: '/projects/core' },
-  {
-    title: 'Litecoin Space',
-    src: 'litecoin-space.jpeg',
-    href: '/projects/litecoin_space_mempool',
-  },
-  {
-    title: 'Ordinals Lite',
-    src: 'OrdinalsLite3.png',
-    href: '/projects/ordinals_lite',
-  },
-  { title: 'MWEB', src: 'MWEB.webp', href: '/projects/mweb' },
-  {
-    title: 'Litecoin Dev Kit',
-    src: 'ldk.png',
-    href: '/projects/litecoin_dev_kit',
-  },
-  {
-    title: 'Litescribe',
-    src: 'litescribe3.png',
-    href: '/projects/litescribe',
-  },
-  {
-    title: 'Litewallet',
-    src: 'litewallet.png',
-    href: '/projects/litewallet',
-  },
-  {
-    title: 'Electrum-LTC',
-    src: 'electrum.png',
-    href: '/projects/electrum',
-  },
-  {
-    title: 'Stackwallet',
-    src: 'stackwallet.png',
-    href: '/projects/stackwallet',
-  },
-]
 
 function CompletedProjects() {
   return (
@@ -62,8 +18,7 @@ function CompletedProjects() {
           <TypingScroll />
         </h3>
       </div>
-
-      <SectionDonors />
+      <SectionContributors />
     </section>
   )
 }

@@ -147,3 +147,13 @@ export async function generateReport(
     doc.end()
   })
 }
+
+export async function getMatchedDonations(): Promise<number> {
+  const donationsMatchedResult = await prisma.matchingDonationLog.aggregate({
+    _sum: {
+      matchedAmount: true,
+    },
+  })
+
+  return donationsMatchedResult._sum.matchedAmount?.toNumber() ?? 0
+}

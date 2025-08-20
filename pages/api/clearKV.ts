@@ -29,12 +29,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       `[${new Date().toISOString()}] Cleared 'contributors:all' KV cache.`
     )
 
-    // Revalidate all project pages
+    // Clear the stats cache
+    await kv.del('stats:all')
+    console.log(`[${new Date().toISOString()}] Cleared 'stats:all' KV cache.`)
+    await kv.del('stats:totalPaid2')
+    console.log(
+      `[${new Date().toISOString()}] Cleared 'stats:totalPaid2' KV cache.`
+    )
+    await kv.del('projects:all')
+    console.log(
+      `[${new Date().toISOString()}] Cleared 'projects:all' KV cache.`
+    )
+
+    // Revalidate all project pages and clear individual project caches
     const projects = await getAllProjects()
     if (projects && projects.length > 0) {
       for (const project of projects) {
         const slug = project.fieldData.slug
         if (slug) {
+          // Clear the individual project cache
+          const cacheKey = `project:${slug}2`
+          await kv.del(cacheKey)
+          console.log(
+            `[${new Date().toISOString()}] Cleared project cache: ${cacheKey}`
+          )
+
+          // Revalidate the project page
           await res.revalidate(`/projects/${slug}`)
           console.log(
             `[${new Date().toISOString()}] Revalidated project: ${slug}`

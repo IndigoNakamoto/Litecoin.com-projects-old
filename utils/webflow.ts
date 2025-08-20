@@ -6,7 +6,7 @@ import { kv } from '@vercel/kv'
 import { prisma } from '../lib/prisma' // Adjust the path to your prisma client
 
 // Load environment variables from .env file
-dotenv.config()
+dotenv.config({ path: '.env.local' })
 
 // Type Definitions
 interface WebflowResponse<T> {
@@ -176,6 +176,7 @@ interface ProjectSummaryLiteFieldData {
     url: string
     alt: string | null
   }
+  'total-paid': number
   status: string // Mapped label
 }
 

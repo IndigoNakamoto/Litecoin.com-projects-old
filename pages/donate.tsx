@@ -2,11 +2,10 @@
 
 import { useRouter } from 'next/router'
 import DonateSection from '@/components/DonateSection'
-import SectionProjects from '@/components/SectionProjects'
 import { PageSEO } from '@/components/SEO'
 import PaymentForm from '@/components/PaymentForm'
 import { ProjectCategory } from 'utils/types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDonation } from '../contexts/DonationContext'
 import CompletedProjects from '@/components/CompletedProjects'
 import SectionMatchingDonations from '@/components/SectionMatchingDonations'
@@ -103,7 +102,7 @@ export default function Donate() {
         <SectionMatchingDonations />
       </SectionBlue>
 
-      <SectionGrey bgColor={'#C5D3D6'}>
+      <SectionGrey bgColor="#ffffff">
         <div className="min-w-full">
           <CompletedProjects />
         </div>

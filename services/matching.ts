@@ -11,7 +11,23 @@ import {
   prisma,
   getUnprocessedDonations,
   getDonorsMatchedAmounts,
+  getMatchedDonationsByProject,
 } from '../lib/prisma'
+
+export const calculateMatchedDonationsForProject = async (
+  projectSlug: string
+) => {
+  try {
+    const totalMatched = await getMatchedDonationsByProject(projectSlug)
+    return totalMatched
+  } catch (error) {
+    console.error(
+      `Error calculating matched donations for project ${projectSlug}:`,
+      error
+    )
+    throw error
+  }
+}
 
 export const processDonationMatching = async () => {
   try {
@@ -85,6 +101,7 @@ export const processDonationMatching = async () => {
           `Found ${filteredEligibleDonors.length} eligible donors for donation ID ${donation.id}`
         )
 
+        let remainingDonationAmount = donationAmount
         // Apply matching logic
         for (const donor of filteredEligibleDonors) {
           console.log(
@@ -123,7 +140,10 @@ export const processDonationMatching = async () => {
             continue
           }
           const maxMatchableAmount = remainingAmountDecimal / multiplier
-          const matchAmount = Math.min(donationAmount, maxMatchableAmount)
+          const matchAmount = Math.min(
+            remainingDonationAmount,
+            maxMatchableAmount
+          )
 
           console.log(
             `Donor ID ${donor.id} - Multiplier: ${multiplier}, Max Matchable Amount: ${maxMatchableAmount}, Match Amount: ${matchAmount}`
@@ -172,6 +192,12 @@ export const processDonationMatching = async () => {
               alreadyMatchedAmount + matchAmount * multiplier
             }`
           )
+
+          remainingDonationAmount -= matchAmount
+          if (remainingDonationAmount <= 0) {
+            console.log(`Donation ID ${donation.id} has been fully matched.`)
+            break // Exit the donor loop
+          }
         }
       } catch (error: any) {
         console.error(`Error processing donation ID ${donation.id}:`, error)

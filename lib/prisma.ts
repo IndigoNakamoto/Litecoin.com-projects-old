@@ -99,4 +99,41 @@ export const getDonorsMatchedAmounts = async (donorIds: string[]) => {
 
   return donorMatchedAmountMap
 }
+
+export const getMatchedDonationsByProject = async (projectSlug: string) => {
+  const result = await prisma.matchingDonationLog.aggregate({
+    _sum: {
+      matchedAmount: true,
+    },
+    where: {
+      projectSlug: projectSlug,
+    },
+  })
+  return result._sum.matchedAmount || 0
+}
+
+export const getAllDonations = async () => {
+  return await prisma.donation.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
+}
+
+export const getAllLogs = async () => {
+  return await prisma.log.findMany({
+    orderBy: {
+      timestamp: 'desc',
+    },
+  })
+}
+
+export const getAllWebhookEvents = async () => {
+  return await prisma.webhookEvent.findMany({
+    orderBy: {
+      receivedAt: 'desc',
+    },
+  })
+}
+
 export default prisma
