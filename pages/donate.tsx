@@ -94,19 +94,19 @@ export default function Donate() {
           </div>
         </div>
       </DonateSection>
-      <SectionWhite>
+      <SectionGrey>
         <SectionStats />
-      </SectionWhite>
+      </SectionGrey>
       <SectionBlue>
         {/* Matching Donations Section */}
         <SectionMatchingDonations />
       </SectionBlue>
 
-      <SectionGrey bgColor="#ffffff">
+      <SectionWhite bgColor="#ffffff">
         <div className="min-w-full">
           <CompletedProjects />
         </div>
-      </SectionGrey>
+      </SectionWhite>
     </>
   )
 }
