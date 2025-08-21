@@ -1,4 +1,4 @@
-import { getIronSession, IronSession } from 'iron-session'
+import { getIronSession } from 'iron-session'
 import { sessionOptions } from '../../../lib/session'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { IronSessionData } from 'iron-session'
@@ -7,7 +7,7 @@ export default async function loginRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session: IronSession<IronSessionData> = await getIronSession(
+  const session = await getIronSession<IronSessionData>(
     req,
     res,
     sessionOptions
@@ -21,7 +21,8 @@ export default async function loginRoute(
   }
 
   session.user = {
-    isLoggedIn: true,
+    id: 1,
+    admin: true,
   }
   await session.save()
   res.json({ ok: true })

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import SectionGrey from '../../components/SectionGrey'
 import { GetServerSideProps } from 'next'
 import { getAllDonations } from '../../lib/prisma'
+import { withAdminAuth } from '../../lib/withAdminAuth'
 
 interface DonationWithMatchedAmount extends Donation {
   matchedAmount: number
@@ -51,12 +52,14 @@ export default function Dashboard({ donations }: DashboardProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const donations = await getAllDonations()
+export const getServerSideProps: GetServerSideProps = withAdminAuth(
+  async () => {
+    const donations = await getAllDonations()
 
-  return {
-    props: {
-      donations: JSON.parse(JSON.stringify(donations)),
-    },
+    return {
+      props: {
+        donations: JSON.parse(JSON.stringify(donations)),
+      },
+    }
   }
-}
+)
