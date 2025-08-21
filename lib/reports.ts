@@ -157,3 +157,32 @@ export async function getMatchedDonations(): Promise<number> {
 
   return donationsMatchedResult._sum.matchedAmount?.toNumber() ?? 0
 }
+
+export async function getMatchedDonationsForDashboard(): Promise<number> {
+  const donations = await prisma.donation.findMany({
+    where: {
+      status: 'Complete',
+      valueAtDonationTimeUSD: {
+        gte: 2,
+      },
+    },
+    select: {
+      id: true,
+    },
+  })
+
+  const donationIds = donations.map((d) => d.id)
+
+  const donationsMatchedResult = await prisma.matchingDonationLog.aggregate({
+    _sum: {
+      matchedAmount: true,
+    },
+    where: {
+      donationId: {
+        in: donationIds,
+      },
+    },
+  })
+
+  return donationsMatchedResult._sum.matchedAmount?.toNumber() ?? 0
+}

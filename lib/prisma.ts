@@ -1,5 +1,6 @@
 // lib/prisma.ts
 import { PrismaClient } from '@prisma/client'
+import Decimal from 'decimal.js'
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
@@ -90,11 +91,12 @@ export const getDonorsMatchedAmounts = async (donorIds: string[]) => {
   // Convert the result to a map for easy lookup
   const donorMatchedAmountMap = new Map<string, number>()
   matchedAmounts.forEach((item) => {
-    // Check if _sum.matchedAmount exists and convert to number
     const matchedAmount = item._sum.matchedAmount
-      ? item._sum.matchedAmount.toNumber()
+      ? Number(item._sum.matchedAmount)
       : 0
-    donorMatchedAmountMap.set(item.donorId, matchedAmount)
+    if (item.donorId) {
+      donorMatchedAmountMap.set(item.donorId, matchedAmount)
+    }
   })
 
   return donorMatchedAmountMap
@@ -113,10 +115,50 @@ export const getMatchedDonationsByProject = async (projectSlug: string) => {
 }
 
 export const getAllDonations = async () => {
-  return await prisma.donation.findMany({
+  const donations = await prisma.donation.findMany({
     orderBy: {
       createdAt: 'desc',
     },
+  })
+
+  const donationIds = donations.map((d) => d.id)
+
+  const matchedAmounts = await prisma.matchingDonationLog.groupBy({
+    by: ['donationId'],
+    where: {
+      donationId: { in: donationIds },
+    },
+    _sum: {
+      matchedAmount: true,
+    },
+  })
+
+  const donationMatchedAmountMap = new Map<string, number>()
+  matchedAmounts.forEach((item) => {
+    const matchedAmount = item._sum.matchedAmount
+      ? Number(item._sum.matchedAmount)
+      : 0
+    if (item.donationId) {
+      donationMatchedAmountMap.set(item.donationId.toString(), matchedAmount)
+    }
+  })
+
+  return donations.map((donation) => {
+    const matchedAmount =
+      donationMatchedAmountMap.get(donation.id.toString()) || 0
+    const value =
+      donation.projectSlug === 'litecoin-foundation'
+        ? matchedAmount
+        : Number(donation.valueAtDonationTimeUSD ?? 0)
+    const serviceFee = value * 0.15
+    const netAmount = value - serviceFee
+    return {
+      ...donation,
+      matchedAmount,
+      serviceFee,
+      netAmount,
+      valueAtDonationTimeUSD: value,
+    }
   })
 }
 

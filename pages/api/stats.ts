@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../lib/prisma'
 import { getAllProjects } from '../../utils/webflow' // Adjust the path as necessary
 import { kv } from '@vercel/kv'
-import { getMatchedDonations } from '../../lib/reports'
+import { getMatchedDonationsForDashboard } from '../../lib/reports'
 // import { Prisma } from '@prisma/client' // Import Prisma to access Decimal type
 
 interface Stats {
@@ -45,14 +45,17 @@ export default async function handler(
         valueAtDonationTimeUSD: true,
       },
       where: {
-        processed: true,
+        status: 'Complete',
+        valueAtDonationTimeUSD: {
+          gte: 2,
+        },
       },
     })
 
     const donationsRaised =
       donationsRaisedResult._sum.valueAtDonationTimeUSD?.toNumber() ?? 0
 
-    const donationsMatched = await getMatchedDonations()
+    const donationsMatched = await getMatchedDonationsForDashboard()
 
     const stats: Stats = {
       projectsSupported,
