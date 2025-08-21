@@ -9,13 +9,12 @@ export default async function handler(
   try {
     // Fetch projects
     const projects = await getAllProjects()
-    // Filter out projects if isDraft or isArchived is true
+
+    // Filter out projects if isDraft is true (Note: Your original code did not filter isArchived)
     const filteredProjects = projects.filter((project) => !project.isDraft)
 
-    // Respond with the filtered projects data
+    // Respond with the filtered projects data (ONLY ONCE)
     res.status(200).json({ projects: filteredProjects })
-    // Respond with the projects data
-    res.status(200).json({ projects })
   } catch (error) {
     console.error('Error fetching projects:', error)
     res.status(500).json({ error: 'Failed to fetch projects' })
