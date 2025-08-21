@@ -50,3 +50,4 @@ yarn-error.log*
 # VSCode
 .vscode
 
+backup.sql
