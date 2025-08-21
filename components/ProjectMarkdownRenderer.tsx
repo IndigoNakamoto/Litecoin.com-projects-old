@@ -31,7 +31,7 @@ const ProjectMarkdownRenderer: React.FC<ProjectProps> = ({ slug }) => {
           })
 
           // Parse the markdown content with marked
-          const contentParsed = marked.parse(contentWithNewlines)
+          const contentParsed = await marked.parse(contentWithNewlines)
 
           // Sanitize the HTML to prevent XSS attacks
           const sanitizedHtml = DOMPurify.sanitize(contentParsed)

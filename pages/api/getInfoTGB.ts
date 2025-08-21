@@ -6,11 +6,6 @@ import prisma from '../../lib/prisma'
 import Decimal from 'decimal.js'
 import { Donation } from '@prisma/client'
 
-type Supporter = {
-  handle: string
-  type: 'Twitter' | 'LinkedIn' | 'Facebook'
-}
-
 type SuccessResponse = {
   funded_txo_sum: number
   tx_count: number

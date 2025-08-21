@@ -1,5 +1,5 @@
 // pages/projects/[slug].tsx
-import { FAQItem, Post, Update } from '../../utils/webflow'
+// import { FAQItem, Post, Update } from '../../utils/webflow'
 
 import { useDonation } from '../../contexts/DonationContext'
 import { useRouter } from 'next/router'
@@ -7,7 +7,7 @@ import ErrorPage from 'next/error'
 import {
   getProjectBySlug,
   getProjectUpdatesBySlug,
-  getContributorsByIds,
+  // getContributorsByIds,
   getFAQsByProjectSlug,
   getPostsBySlug,
   getAllActiveContributors,
@@ -15,7 +15,7 @@ import {
 } from '../../utils/webflow'
 import {
   ProjectItem,
-  ProjectCategory,
+  // ProjectCategory,
   AddressStats,
   BountyStatus,
   TwitterUser,
@@ -33,7 +33,7 @@ import ProjectHeader from '@/components/ProjectHeader'
 import ProjectMenu from '@/components/ProjectMenu'
 import MenuSections from '@/components/MenuSections'
 import AsideSection from '@/components/AsideSection'
-import tweetsData from '../../data/tweets.json'
+// import tweetsData from '../../data/tweets.json'
 import React from 'react'
 
 type SingleProjectPageProps = {
@@ -105,17 +105,12 @@ const Project: NextPage<SingleProjectPageProps> = ({
   // State Variables
   const [addressStats, setAddressStats] = useState<AddressStats>()
   const [matchingDonors, setMatchingDonors] = useState(undefined)
-  const [twitterUsers, setTwitterUsers] = useState<TwitterUser[]>([])
+  const [twitterUsers] = useState<TwitterUser[]>([])
   const [matchingTotal, setMatchingTotal] = useState(0)
-  const [twitterContributors, setTwitterContributors] = useState<TwitterUser[]>(
-    []
-  )
-  const [twitterContributorsBitcoin, setTwitterContributorsBitcoin] = useState<
-    TwitterUser[]
-  >([])
-  const [twitterContributorsLitecoin, setTwitterContributorsLitecoin] =
-    useState<TwitterUser[]>([])
-  const [twitterAdvocates, setTwitterAdvocates] = useState<TwitterUser[]>([])
+  const [twitterContributors] = useState<TwitterUser[]>([])
+  const [twitterContributorsBitcoin] = useState<TwitterUser[]>([])
+  const [twitterContributorsLitecoin] = useState<TwitterUser[]>([])
+  const [twitterAdvocates] = useState<TwitterUser[]>([])
 
   const [faq, setFaq] = useState<any>({})
   const [faqCount, setFaqCount] = useState<number>(0)
@@ -131,9 +126,9 @@ const Project: NextPage<SingleProjectPageProps> = ({
   const [selectedUpdateId, setSelectedUpdateId] = useState<number | null>(null)
 
   // Utility Functions
-  const isValidUsernames = (usernames: string | undefined): boolean => {
-    return typeof usernames === 'string' && usernames.trim().length > 0
-  }
+  // const isValidUsernames = (usernames: string | undefined): boolean => {
+  //   return typeof usernames === 'string' && usernames.trim().length > 0
+  // }
 
   function closeModal() {
     setModalOpen(false)

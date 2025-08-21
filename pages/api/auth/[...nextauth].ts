@@ -58,7 +58,7 @@ export default NextAuth({
         throw new Error('Failed to process JWT token.')
       }
     },
-    session: async ({ session, token, user }) => {
+    session: async ({ session, token }) => {
       try {
         // console.log('TOKEN in session: ', token)
         const customSession = session as CustomSession

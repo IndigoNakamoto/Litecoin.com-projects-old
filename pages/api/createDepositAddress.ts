@@ -5,11 +5,6 @@ import axios from 'axios'
 import { getAccessToken } from '../../utils/authTGB'
 import Decimal from 'decimal.js'
 
-function generateRandomCharacter() {
-  const characters = 'abcdefghijklmnopqrstuvwxyz'
-  return characters[Math.floor(Math.random() * characters.length)]
-}
-
 type Data =
   | {
       depositAddress: string

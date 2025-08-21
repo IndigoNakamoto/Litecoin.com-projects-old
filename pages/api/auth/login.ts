@@ -12,7 +12,6 @@ export default async function loginRoute(
     res,
     sessionOptions
   )
-  const { password } = req.body
 
   if (
     !process.env.ADMIN_PASSWORD ||
