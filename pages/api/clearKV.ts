@@ -54,6 +54,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             `[${new Date().toISOString()}] Cleared project cache: ${cacheKey}`
           )
 
+          // Clear the tgb-info cache for the project
+          const tgbInfoCacheKey = `tgb-info-${slug}`
+          await kv.del(tgbInfoCacheKey)
+          console.log(
+            `[${new Date().toISOString()}] Cleared tgb-info cache: ${tgbInfoCacheKey}`
+          )
+
           // Revalidate the project page
           await res.revalidate(`/projects/${slug}`)
           console.log(
