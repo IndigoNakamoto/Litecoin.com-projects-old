@@ -12,6 +12,9 @@ type AsideSectionProps = {
   coverImage: string
   addressStats?: AddressStats
   formatUSD?: any
+  formatLits?: any
+  litecoinRaised?: number
+  litecoinPaid?: number
   isMatching?: boolean
   isBitcoinOlympics2024?: boolean
   isRecurring?: boolean
@@ -32,6 +35,9 @@ const AsideSection: React.FC<AsideSectionProps> = ({
   coverImage,
   addressStats = defaultAddressStats,
   formatUSD,
+  formatLits,
+  litecoinRaised,
+  litecoinPaid,
   bountyStatus,
   isMatching,
   isBitcoinOlympics2024,
@@ -73,6 +79,9 @@ const AsideSection: React.FC<AsideSectionProps> = ({
           <DonationStats
             addressStats={addressStats}
             formatUSD={formatUSD}
+            formatLits={formatLits}
+            litecoinRaised={litecoinRaised}
+            litecoinPaid={litecoinPaid}
             isMatching={isMatching}
             isBitcoinOlympics2024={isBitcoinOlympics2024}
             isRecurring={isRecurring}

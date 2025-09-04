@@ -6,6 +6,9 @@ import { defaultAddressStats } from '../utils/defaultValues' // Adjust the path 
 type DonationStatsProps = {
   addressStats?: AddressStats
   formatUSD: (value: any) => string
+  formatLits?: (value: any) => string
+  litecoinRaised?: number
+  litecoinPaid?: number
   isMatching?: boolean
   isBitcoinOlympics2024?: boolean
   isRecurring?: boolean
@@ -43,6 +46,9 @@ const DonationStats: React.FC<DonationStatsProps> = ({
   matchingDonors = [],
   totalPaid = 0,
   formatUSD,
+  formatLits,
+  litecoinRaised = 0,
+  litecoinPaid = 0,
   monthlyTotal = 0,
   recurringAmountGoal = 0,
   monthlyDonorCount = 0,
@@ -52,6 +58,12 @@ const DonationStats: React.FC<DonationStatsProps> = ({
     <div className="flex w-full flex-col">
       {!isBitcoinOlympics2024 && !isRecurring && (
         <div className="flex w-full flex-col">
+          {litecoinRaised > 0 && formatLits && (
+            <StatItem
+              value={`Ł ${formatLits(litecoinRaised)}`}
+              label="LTC Raised"
+            />
+          )}
           <StatItem
             value={`$ ${formatUSD(addressStats.funded_txo_sum)}`}
             label="USD Raised"
@@ -75,6 +87,12 @@ const DonationStats: React.FC<DonationStatsProps> = ({
             value={`$ ${formatUSD(totalPaid)}`}
             label="Paid to Contributors"
           />
+          {litecoinPaid > 0 && formatLits && (
+            <StatItem
+              value={`Ł ${formatLits(litecoinPaid)}`}
+              label="LTC Paid to Contributors"
+            />
+          )}
           <StatItem value={addressStats.tx_count || '0'} label="Donations" />
         </div>
       )}
