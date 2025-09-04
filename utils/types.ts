@@ -109,6 +109,8 @@ export type ProjectItem = {
   recurringStatus?: FundingStatus
   totalPaid?: number | undefined
   serviceFeesCollected?: number
+  litecoinRaised?: number
+  litecoinPaid?: number
 
   // // Technical Details
   // techStack?: string[]
