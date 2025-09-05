@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  FaXTwitter,
-  FaTwitter,
-  FaRedditAlien,
-  FaFacebookF,
-  FaGithub,
-} from 'react-icons/fa6'
+import { FaTwitter, FaRedditAlien, FaFacebookF, FaGithub } from 'react-icons/fa'
 
 interface HorizontalSocialIconsProps {
   topOffset?: string
