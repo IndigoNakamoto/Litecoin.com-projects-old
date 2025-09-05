@@ -7,7 +7,7 @@ import ErrorPage from 'next/error'
 import {
   getProjectBySlug,
   getProjectUpdatesBySlug,
-  getContributorsByIds,
+  // getContributorsByIds,
   getFAQsByProjectSlug,
   getPostsBySlug,
   getAllActiveContributors,
@@ -15,7 +15,7 @@ import {
 } from '../../utils/webflow'
 import {
   ProjectItem,
-  ProjectCategory,
+  // ProjectCategory,
   AddressStats,
   BountyStatus,
   TwitterUser,
@@ -125,7 +125,7 @@ const Project: NextPage<SingleProjectPageProps> = ({
 
   const [monthlyTotal, setMonthlyTotal] = useState(0)
   const [monthlyDonorCount, setMonthlyDonorCount] = useState(0)
-  const [percentGoalCompleted, setPercentGoalCompleted] = useState(0)
+  const [setPercentGoalCompleted] = useState(0)
   const [timeLeftInMonth, setTimeLeftInMonth] = useState(0)
 
   const [selectedMenuItem, setSelectedMenuItem] = useState<string | null>(
@@ -134,9 +134,9 @@ const Project: NextPage<SingleProjectPageProps> = ({
   const [selectedUpdateId, setSelectedUpdateId] = useState<number | null>(null)
 
   // Utility Functions
-  const isValidUsernames = (usernames: string | undefined): boolean => {
-    return typeof usernames === 'string' && usernames.trim().length > 0
-  }
+  // const isValidUsernames = (usernames: string | undefined): boolean => {
+  //   return typeof usernames === 'string' && usernames.trim().length > 0
+  // }
 
   function closeModal() {
     setModalOpen(false)
@@ -183,11 +183,11 @@ const Project: NextPage<SingleProjectPageProps> = ({
     setThankYouModalOpen(true)
   }
 
-  function extractUsername(url: string) {
-    const regex = /\/([^/]+)$/
-    const match = url.match(regex)
-    return match ? match[1] : url
-  }
+  // function extractUsername(url: string) {
+  //   const regex = /\/([^/]+)$/
+  //   const match = url.match(regex)
+  //   return match ? match[1] : url
+  // }
 
   // Format function for USD
   function formatUSD(value) {
@@ -302,11 +302,11 @@ const Project: NextPage<SingleProjectPageProps> = ({
           (total: number, donation: any) => total + Number(donation.amount),
           0
         )
-        const percentGoalCompletedCalc =
-          (monthlyTotalCalc / recurringAmountGoal) * 100
+        // const percentGoalCompletedCalc =
+        //   (monthlyTotalCalc / recurringAmountGoal) * 100
 
         setMonthlyTotal(monthlyTotalCalc)
-        setPercentGoalCompleted(percentGoalCompletedCalc)
+        // setPercentGoalCompleted(percentGoalCompletedCalc)
 
         const timeLeft = endOfMonth.getTime() - currentDate.getTime()
         const daysLeft = Math.ceil(timeLeft / (1000 * 3600 * 24))
@@ -543,9 +543,9 @@ const Project: NextPage<SingleProjectPageProps> = ({
 
 export default Project
 
-type ParamsType = {
-  slug: string
-}
+// type ParamsType = {
+//   slug: string
+// }
 
 import {
   determineProjectType,
@@ -613,7 +613,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     title: project.fieldData.name || null,
     slug: project.fieldData.slug,
     content: project.fieldData['content'] || null,
-    coverImage: project.fieldData['cover-image'].url || null,
+    coverImage: project.fieldData['cover-image']?.url || null,
     gitRepository: project.fieldData['github-link'] || null,
     twitterHandle: project.fieldData['twitter-link'] || null,
     discordLink: project.fieldData['discord-link'] || null,
@@ -632,7 +632,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     contributorsBitcoin:
       contributorsBitcoin
         .map((c) =>
-          c.fieldData['twitter-link'].replace(
+          (c.fieldData['twitter-link'] || '').replace(
             /^https?:\/\/(www\.)?(twitter\.com|x\.com)\//,
             ''
           )
@@ -641,7 +641,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     contributorsLitecoin:
       contributorsLitecoin
         .map((c) =>
-          c.fieldData['twitter-link'].replace(
+          (c.fieldData['twitter-link'] || '').replace(
             /^https?:\/\/(www\.)?(twitter\.com|x\.com)\//,
             ''
           )
@@ -650,7 +650,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     advocates:
       advocates
         .map((c) =>
-          c.fieldData['twitter-link'].replace(
+          (c.fieldData['twitter-link'] || '').replace(
             /^https?:\/\/(www\.)?(twitter\.com|x\.com)\//,
             ''
           )
