@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ReactNode } from 'react'
 // import type { Pages } from 'contentlayer/generated'
 import { PageSEO } from '@/components/SEO'

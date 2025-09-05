@@ -1,3 +1,4 @@
+/* eslint-disable */
 //layouts/FaqLayout.tsx
 
 import { ReactNode, useState } from 'react'

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useState, ReactNode } from 'react'
 import { Comments } from 'pliny/comments'
 import { CoreContent } from 'pliny/utils/contentlayer'

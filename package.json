@@ -2,9 +2,6 @@
   "name": "Lite.Space",
   "version": "0.2.0",
   "private": true,
-  "engines": {
-    "node": "22.x"
-  },
   "scripts": {
     "start": "next dev",
     "dev": "cross-env INIT_CWD=$PWD next dev",
@@ -13,6 +10,9 @@
     "analyze": "cross-env ANALYZE=true next build",
     "postbuild": "next-sitemap",
     "generate-reports": "ts-node -r tsconfig-paths/register scripts/generate-reports.ts"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -60,7 +60,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
-    "react-icons": "^5.3.0",
+    "react-icons": "^4.12.0",
     "react-markdown": "^9.0.0",
     "react-modal": "^3.16.1",
     "react-signature-canvas": "^1.0.6",
