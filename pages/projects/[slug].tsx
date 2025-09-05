@@ -558,7 +558,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   // Fetch project data from the API
   const project = await getProjectBySlug(slug)
-  console.log('Project: ', project)
+  // console.log('Project: ', project)
 
   // Handle the case where the project is not found
   if (!project) {
@@ -659,7 +659,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     // You can include other fields here, ensuring none are undefined
   }
 
-  console.log('Project Data: ', projectData)
+  // console.log('Project Data: ', projectData)
 
   return {
     props: {
