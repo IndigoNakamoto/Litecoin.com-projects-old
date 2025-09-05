@@ -132,9 +132,9 @@ const StandardStats: React.FC<
  */
 const BitcoinOlympicsStats: React.FC<
   SharedStatsProps & {
-    matchingTotal: number
+    matchingTotal?: number
   }
-> = ({ addressStats, formatUSD, matchingTotal, totalPaid = 0 }) => (
+> = ({ addressStats, formatUSD, matchingTotal = 0, totalPaid = 0 }) => (
   // This component remains unchanged
   <></>
 )
@@ -144,18 +144,18 @@ const BitcoinOlympicsStats: React.FC<
  */
 const RecurringStats: React.FC<
   SharedStatsProps & {
-    monthlyTotal: number
-    recurringAmountGoal: number
-    monthlyDonorCount: number
-    timeLeftInMonth: number
+    monthlyTotal?: number
+    recurringAmountGoal?: number
+    monthlyDonorCount?: number
+    timeLeftInMonth?: number
   }
 > = ({
   addressStats,
   formatUSD,
-  monthlyTotal,
-  recurringAmountGoal,
-  monthlyDonorCount,
-  timeLeftInMonth,
+  monthlyTotal = 0,
+  recurringAmountGoal = 0,
+  monthlyDonorCount = 0,
+  timeLeftInMonth = 0,
 }) => (
   // This component remains unchanged
   <></>
@@ -186,15 +186,46 @@ const DonationStats: React.FC<DonationStatsProps> = ({
   addressStats = defaultAddressStats,
   isBitcoinOlympics2024 = false,
   isRecurring = false,
+  formatUSD,
+  totalPaid,
+  monthlyTotal,
+  recurringAmountGoal,
+  monthlyDonorCount,
+  timeLeftInMonth,
+  matchingTotal,
   ...props
 }) => {
   if (isRecurring) {
-    return <RecurringStats addressStats={addressStats} {...props} />
+    return (
+      <RecurringStats
+        addressStats={addressStats}
+        formatUSD={formatUSD}
+        totalPaid={totalPaid}
+        monthlyTotal={monthlyTotal || 0}
+        recurringAmountGoal={recurringAmountGoal || 0}
+        monthlyDonorCount={monthlyDonorCount || 0}
+        timeLeftInMonth={timeLeftInMonth || 0}
+      />
+    )
   }
   if (isBitcoinOlympics2024) {
-    return <BitcoinOlympicsStats addressStats={addressStats} {...props} />
+    return (
+      <BitcoinOlympicsStats
+        addressStats={addressStats}
+        formatUSD={formatUSD}
+        totalPaid={totalPaid}
+        matchingTotal={matchingTotal || 0}
+      />
+    )
   }
-  return <StandardStats addressStats={addressStats} {...props} />
+  return (
+    <StandardStats
+      addressStats={addressStats}
+      formatUSD={formatUSD}
+      totalPaid={totalPaid}
+      {...props}
+    />
+  )
 }
 
 export default DonationStats
