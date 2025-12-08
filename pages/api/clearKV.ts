@@ -61,6 +61,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             `[${new Date().toISOString()}] Cleared tgb-info cache: ${tgbInfoCacheKey}`
           )
 
+          // Clear the matching-donors cache for the project
+          const matchingDonorsCacheKey = `matching-donors-${slug}`
+          await kv.del(matchingDonorsCacheKey)
+          console.log(
+            `[${new Date().toISOString()}] Cleared matching-donors cache: ${matchingDonorsCacheKey}`
+          )
+
           // Revalidate the project page
           await res.revalidate(`/projects/${slug}`)
           console.log(
