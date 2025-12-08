@@ -111,15 +111,16 @@ export const processDonationMatching = async () => {
             donor.fieldData['total-matching-amount']
           )
 
-          // Get already matched amount
+          // Get already matched amount (includes in-memory updates from current processing)
           const alreadyMatchedAmount = donorMatchedAmountMap.get(donor.id) || 0
           console.log(
             `Donor ID ${donor.id} - Total Matching Amount: ${totalMatchingAmount}, Already Matched Amount: ${alreadyMatchedAmount}`
           )
 
           // Calculate remaining matching amount
+          // Use totalMatchingAmount - alreadyMatchedAmount to account for in-memory updates
           const remainingAmountDecimal =
-            donor.remainingAmount - alreadyMatchedAmount
+            totalMatchingAmount - alreadyMatchedAmount
           console.log(
             `Donor ID ${donor.id} - Remaining Matching Amount: ${remainingAmountDecimal}`
           )
