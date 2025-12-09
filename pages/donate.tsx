@@ -82,7 +82,7 @@ export default function Donate() {
                 title: 'Litecoin Foundation',
                 summary: '',
                 coverImage:
-                  'https://cdn.prod.website-files.com/6233ca951c563d47368b1def/675b68a6b7eab91cd73b0765_Litecoin%20Foundation%20Project.png?w=1200&q=75',
+                  'https://cdn.prod.website-files.com/6233ca951c563d47368b1def/675b68a6b7eab91cd73b0765_Litecoin%20Foundation%20Project.png',
                 telegramLink: '',
                 redditLink: '',
                 facebookLink: '',

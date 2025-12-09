@@ -1,8 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import DOMPurify from 'dompurify'
+import { optimizeWebflowImageUrl } from '../utils/customImageLoader'
 
 type ProjectProps = {
   slug: string
+}
+
+/**
+ * Processes HTML content to optimize Webflow CDN image URLs
+ * @param html - The HTML content to process
+ * @returns The HTML with optimized image URLs
+ */
+const optimizeImagesInHtml = (html: string): string => {
+  // Use regex to find all img src attributes with Webflow CDN URLs
+  return html.replace(
+    /(<img[^>]+src=["'])(https?:\/\/[^"']*cdn\.prod\.website-files\.com[^"']*)(["'])/gi,
+    (match, prefix, url, suffix) => {
+      const optimizedUrl = optimizeWebflowImageUrl(url)
+      return `${prefix}${optimizedUrl}${suffix}`
+    }
+  )
 }
 
 const ProjectRichTextRenderer: React.FC<ProjectProps> = ({ slug }) => {
@@ -25,11 +42,11 @@ const ProjectRichTextRenderer: React.FC<ProjectProps> = ({ slug }) => {
           // Assuming 'content-rich' is already in HTML format
           const richContent = data.project.fieldData['content-rich']
 
-          // Optional: Replace escaped newlines (\\n) with actual newlines if necessary
-          // This depends on how the rich text is stored. If it's already proper HTML, this step might not be needed.
+          // Optimize Webflow image URLs in the HTML content
+          const optimizedContent = optimizeImagesInHtml(richContent)
 
           // Sanitize the HTML to prevent XSS attacks
-          const sanitizedHtml = DOMPurify.sanitize(richContent)
+          const sanitizedHtml = DOMPurify.sanitize(optimizedContent)
 
           setContent(sanitizedHtml)
         } else {

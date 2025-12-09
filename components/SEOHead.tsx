@@ -1,5 +1,6 @@
 // components/SEOHead.tsx
 import Head from 'next/head'
+import { optimizeWebflowImageUrl } from '../utils/customImageLoader'
 
 type SEOHeadProps = {
   title: string
@@ -8,9 +9,12 @@ type SEOHeadProps = {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({ title, summary, coverImage }) => {
-  const imageUrl = coverImage.startsWith('http')
+  const baseImageUrl = coverImage.startsWith('http')
     ? coverImage
     : `https://www.litecoin.com${coverImage}`
+
+  // Optimize Webflow CDN URLs for social media previews
+  const imageUrl = optimizeWebflowImageUrl(baseImageUrl)
 
   return (
     <Head>

@@ -18,9 +18,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     // Get all matching-donors keys
     const keys = await kv.keys('matching-donors-*')
-    
-    console.log(`[${new Date().toISOString()}] Found ${keys.length} matching-donors cache keys`)
-    
+
+    console.log(
+      `[${new Date().toISOString()}] Found ${
+        keys.length
+      } matching-donors cache keys`
+    )
+
     // Delete each key
     for (const key of keys) {
       await kv.del(key)
@@ -31,14 +35,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       message: `Cleared ${keys.length} matching-donors cache keys`,
       keys: keys,
     })
-  } catch (error: any) {
-    console.error(`[${new Date().toISOString()}] Error clearing matching cache:`, error)
+  } catch (error: unknown) {
+    const err = error as Error
+    console.error(
+      `[${new Date().toISOString()}] Error clearing matching cache:`,
+      error
+    )
     return res.status(500).json({
       error: 'Failed to clear matching cache.',
-      details: error.message || 'An unexpected error occurred.',
+      details: err.message || 'An unexpected error occurred.',
     })
   }
 }
 
 export default handler
-
