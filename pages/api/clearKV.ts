@@ -1,7 +1,6 @@
 // /pages/api/clearKV.ts
 import { NextApiRequest, NextApiResponse } from 'next'
 import { kv } from '@vercel/kv'
-import { getAllProjects } from '../../utils/webflow'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   // Only allow POST requests
@@ -22,75 +21,63 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
+  const clearedKeys: string[] = []
+
   try {
-    // Clear the contributors cache
-    await kv.del('contributors:all')
-    console.log(
-      `[${new Date().toISOString()}] Cleared 'contributors:all' KV cache.`
-    )
+    // Clear specific known cache keys
+    const knownKeys = [
+      'contributors:all',
+      'stats:all',
+      'stats:totalPaid2',
+      'projects:all',
+    ]
 
-    // Clear the stats cache
-    await kv.del('stats:all')
-    console.log(`[${new Date().toISOString()}] Cleared 'stats:all' KV cache.`)
-    await kv.del('stats:totalPaid2')
-    console.log(
-      `[${new Date().toISOString()}] Cleared 'stats:totalPaid2' KV cache.`
-    )
-    await kv.del('projects:all')
-    console.log(
-      `[${new Date().toISOString()}] Cleared 'projects:all' KV cache.`
-    )
+    for (const key of knownKeys) {
+      await kv.del(key)
+      clearedKeys.push(key)
+      console.log(`[${new Date().toISOString()}] Cleared '${key}' KV cache.`)
+    }
 
-    // Revalidate all project pages and clear individual project caches
-    const projects = await getAllProjects()
-    if (projects && projects.length > 0) {
-      for (const project of projects) {
-        const slug = project.fieldData.slug
-        if (slug) {
-          // Clear the individual project cache
-          const cacheKey = `project:${slug}2`
-          await kv.del(cacheKey)
-          console.log(
-            `[${new Date().toISOString()}] Cleared project cache: ${cacheKey}`
-          )
+    // Use pattern matching to find and clear all project-related cache keys (no Webflow dependency)
+    const patterns = ['project:*', 'tgb-info-*', 'matching-donors-*']
 
-          // Clear the tgb-info cache for the project
-          const tgbInfoCacheKey = `tgb-info-${slug}`
-          await kv.del(tgbInfoCacheKey)
-          console.log(
-            `[${new Date().toISOString()}] Cleared tgb-info cache: ${tgbInfoCacheKey}`
-          )
-
-          // Clear the matching-donors cache for the project
-          const matchingDonorsCacheKey = `matching-donors-${slug}`
-          await kv.del(matchingDonorsCacheKey)
-          console.log(
-            `[${new Date().toISOString()}] Cleared matching-donors cache: ${matchingDonorsCacheKey}`
-          )
-
-          // Revalidate the project page
-          await res.revalidate(`/projects/${slug}`)
-          console.log(
-            `[${new Date().toISOString()}] Revalidated project: ${slug}`
-          )
-        }
+    for (const pattern of patterns) {
+      const keys = await kv.keys(pattern)
+      console.log(
+        `[${new Date().toISOString()}] Found ${
+          keys.length
+        } keys matching pattern: ${pattern}`
+      )
+      for (const key of keys) {
+        await kv.del(key)
+        clearedKeys.push(key)
+        console.log(`[${new Date().toISOString()}] Cleared cache: ${key}`)
       }
     }
 
+    // Note: We don't call res.revalidate() here because:
+    // 1. It can cause 404s if Webflow API is temporarily unavailable during revalidation
+    // 2. Pages have ISR with revalidate: 600, so they'll regenerate naturally
+    // 3. The next request to each page will trigger regeneration with fresh cache
+    // 4. This prevents the race condition where cache is cleared but revalidation fails
+
     console.log(
-      `[${new Date().toISOString()}] All caches cleared and pages revalidated successfully.`
+      `[${new Date().toISOString()}] Cache clearing completed. Cleared ${
+        clearedKeys.length
+      } keys. Pages will regenerate naturally via ISR on next request.`
     )
+
     return res.status(200).json({
-      message: 'All caches cleared and pages revalidated successfully.',
+      message: `Cleared ${clearedKeys.length} cache keys successfully. Pages will regenerate via ISR on next request.`,
+      clearedKeysCount: clearedKeys.length,
     })
-  } catch (error: any) {
-    console.error(
-      `[${new Date().toISOString()}] Error clearing cache and revalidating:`,
-      error
-    )
+  } catch (error: unknown) {
+    const err = error as { message?: string }
+    console.error(`[${new Date().toISOString()}] Error clearing cache:`, error)
     return res.status(500).json({
-      error: 'Failed to clear cache and revalidate.',
-      details: error.message || 'An unexpected error occurred.',
+      error: 'Failed to clear cache.',
+      details: err.message || 'An unexpected error occurred.',
+      clearedKeysCount: clearedKeys.length,
     })
   }
 }
