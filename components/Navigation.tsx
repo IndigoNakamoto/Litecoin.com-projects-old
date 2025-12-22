@@ -353,6 +353,9 @@ const Navigation = () => {
                     <li className="ml-2 p-2 pl-4 text-left">
                       <a href="https://litecoin.com/resources">Resources</a>
                     </li>
+                    <li className="ml-2 p-2 pl-4 text-left">
+                      <a href="https://litecoin.com/chat">Chat</a>
+                    </li>
                   </ul>
                 </li>
                 {/* End of Learn Dropdown */}
@@ -616,6 +619,9 @@ const Navigation = () => {
                                 <a href="https://litecoin.com/resources">
                                   Resources
                                 </a>
+                              </li>
+                              <li className="py-1">
+                                <a href="https://litecoin.com/chat">Chat</a>
                               </li>
                             </>
                           ) : null}
