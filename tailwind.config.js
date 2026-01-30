@@ -1,5 +1,5 @@
 // @ts-check
-const { fontFamily } = require('tailwindcss/defaultTheme')
+// const { fontFamily } = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
 // ../node_modules/pliny/dist/**/*.mjs is needed for monorepo setup
@@ -15,14 +15,17 @@ module.exports = {
     './lib/**/*.{js,ts,tsx}',
     './data/**/*.mdx',
   ],
-  darkMode: 'class',
   theme: {
     extend: {
+      rotate: {
+        135: '135deg',
+        315: '315deg',
+      },
       screens: {
         xs: '500px',
         sm: '640px',
         md: '768px',
-        lg: '1024px',
+        lg: '992px',
         xl: '1280px',
         '2xl': '1536px',
         '3xl': '2000px',
@@ -39,9 +42,24 @@ module.exports = {
         14: '3.5rem',
       },
       fontFamily: {
-        sans: ['Barlow Semi Condensed', 'sans'], // !! Barlow Semi Condensed is not in the project directory. When pushed to vercel, it does not have font to render. How should I include the font?
+        'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
+        sans: [
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Oxygen',
+          'Ubuntu',
+          'Cantarell',
+          'Fira Sans',
+          'Droid Sans',
+          'Helvetica Neue',
+          'sans-serif',
+        ],
         'barlow-semi-condensed': ['Barlow Semi Condensed', 'sans'],
       },
+
       colors: {
         primary: colors.blue,
         gray: colors.neutral,
@@ -77,18 +95,22 @@ module.exports = {
               code: { color: theme('colors.primary.400') },
             },
             h1: {
-              fontWeight: '700',
+              fontWeight: 'font-semibold',
               letterSpacing: theme('letterSpacing.tight'),
-              color: theme('colors.gray.900'),
+              color: theme('colors.black'),
+              fontFamily: theme('fontFamily.space-grotesk'),
             },
             h2: {
-              fontWeight: '700',
+              fontWeight: 'font-semibold',
               letterSpacing: theme('letterSpacing.tight'),
-              color: theme('colors.gray.900'),
+              color: theme('colors.black'),
+              fontFamily: theme('fontFamily.space-grotesk'),
             },
             h3: {
-              fontWeight: '600',
-              color: theme('colors.gray.900'),
+              fontWeight: 'font-semibold',
+              color: theme('colors.black'),
+              letterSpacing: theme('letterSpacing.tight'),
+              fontFamily: theme('fontFamily.space-grotesk'),
             },
             'h4,h5,h6': {
               color: theme('colors.gray.900'),
@@ -131,67 +153,6 @@ module.exports = {
             blockquote: {
               color: theme('colors.gray.900'),
               borderLeftColor: theme('colors.gray.200'),
-            },
-          },
-        },
-        dark: {
-          css: {
-            color: theme('colors.gray.300'),
-            a: {
-              color: theme('colors.primary.500'),
-              '&:hover': {
-                color: `${theme('colors.primary.400')} !important`,
-              },
-              code: { color: theme('colors.primary.400') },
-            },
-            h1: {
-              fontWeight: '700',
-              letterSpacing: theme('letterSpacing.tight'),
-              color: theme('colors.gray.100'),
-            },
-            h2: {
-              fontWeight: '700',
-              letterSpacing: theme('letterSpacing.tight'),
-              color: theme('colors.gray.100'),
-            },
-            h3: {
-              fontWeight: '600',
-              color: theme('colors.gray.100'),
-            },
-            'h4,h5,h6': {
-              color: theme('colors.gray.100'),
-            },
-            pre: {
-              backgroundColor: theme('colors.gray.800'),
-            },
-            code: {
-              backgroundColor: theme('colors.gray.800'),
-            },
-            details: {
-              backgroundColor: theme('colors.gray.800'),
-            },
-            hr: { borderColor: theme('colors.gray.700') },
-            'ol li::marker': {
-              fontWeight: '600',
-              color: theme('colors.gray.400'),
-            },
-            'ul li::marker': {
-              backgroundColor: theme('colors.gray.400'),
-            },
-            strong: { color: theme('colors.gray.100') },
-            thead: {
-              th: {
-                color: theme('colors.gray.100'),
-              },
-            },
-            tbody: {
-              tr: {
-                borderBottomColor: theme('colors.gray.700'),
-              },
-            },
-            blockquote: {
-              color: theme('colors.gray.100'),
-              borderLeftColor: theme('colors.gray.700'),
             },
           },
         },

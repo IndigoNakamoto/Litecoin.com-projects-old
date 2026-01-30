@@ -1,63 +1,63 @@
 {
-    "questionsAndAnswers": [
+  "questionsAndAnswers": [
+    {
+      "category": "General Information",
+      "items": [
         {
-            "category": "General Information",
-            "items": [
-                {
-                    "question": "What is open source?",
-                    "answer": "Open source is a type of software that is developed through public collaboration and made available to the public for free. The source code is available for anyone to use, study, modify, and redistribute."
-                },
-                {
-                    "question": "What is Lite.Space?",
-                    "answer": "Lite.Space is an initiative of The Litecoin Foundation, a Singapore-registered non-profit (UEN: 201709179W). We advocate for Litecoin (LTC) adoption, education, and development. Our platform supports Litecoin Core contributors and open-source tools through sustainable funding. Donors can fund specific projects or contribute to our general fund, which we use to grant money to projects enhancing Litecoin infrastructure."
-                },
-                {
-                    "question": "How can I reach Lite.Space?",
-                    "answer": "[Email us](support@Lite.Space) or tweet [@LTCFoundation](https://www.twitter.com/ltcfoundation). Our mailing address: Litecoin Foundation Ltd., 111 North Bridge Rd, #08-11 Peninsula Plaza, Singapore 179098."
-                }
-            ]
+          "question": "What is open source?",
+          "answer": "Open source is a type of software that is developed through public collaboration and made available to the public for free. The source code is available for anyone to use, study, modify, and redistribute."
         },
         {
-            "category": "Funding & Donations",
-            "items": [
-                {
-                    "question": "How are funds distributed?",
-                    "answer": "Our council distributes funds from the general fund quarterly. We prioritize impactful Litecoin projects. Additionally, donors can recommend specific mission-aligned open-source projects for funding. While we consider donor recommendations, the final decision on distribution remains with Lite.Space."
-                },
-                {
-                    "question": "What percentage of my donation directly supports projects?",
-                    "answer": "100% of donations to the general fund and specific open-source projects go to grant recipients."
-                },
-                {
-                    "question": "In what form are grants distributed?",
-                    "answer": "Grants are given in Litecoin."
-                },
-                {
-                    "question": "How do you process Litecoin donations?",
-                    "answer": "We employ BTCPay Server and Electrum-LTC for on-chain Litecoin donations. All donations are stored in a multi-sig wallet overseen by our council."
-                },
-                {
-                    "question": "Are my donations tax deductible?",
-                    "answer": "Currently, Lite.Space, under The Litecoin Foundation in Singapore, doesn't offer tax deductions for American Citizens. We're working on this feature. For substantial donations, U.S. citizens should [email us](support@lite.Space)."
-                }
-            ]
+          "question": "What is Lite.Space?",
+          "answer": "Lite.Space is an initiative of The Litecoin Foundation, a Singapore-registered non-profit (UEN: 201709179W). We advocate for Litecoin (LTC) adoption, education, and development. Our platform supports Litecoin Core contributors and open-source tools through sustainable funding. Donors can fund specific projects or contribute to our general fund, which we use to grant money to projects enhancing Litecoin infrastructure."
         },
         {
-            "category": "Governance & Transparency",
-            "items": [
-                {
-                    "question": "Can you elaborate on your Council?",
-                    "answer": "Our Council comprises five members. Standard decisions are made by a simple majority (3-2), whereas council-specific changes necessitate a 4-1 majority. We publicly announce new Council members."
-                },
-                {
-                    "question": "Is Lite.Space truly 100% passthrough?",
-                    "answer": "Absolutely. Our operational costs, such as legal and accounting services, are separate from project donations."
-                },
-                {
-                    "question": "When do you announce funding opportunities?",
-                    "answer": "We declare funding opportunities quarterly, based on available funds. Projects should be open-source, related to Litecoin, or support Litecoin usage and align with our mission."
-                }
-            ]
+          "question": "How can I reach Lite.Space?",
+          "answer": "[Email us](support@Lite.Space) or tweet [@LTCFoundation](https://www.twitter.com/ltcfoundation). Our mailing address: Litecoin Foundation Ltd., 111 North Bridge Rd, #08-11 Peninsula Plaza, Singapore 179098."
         }
-    ]
+      ]
+    },
+    {
+      "category": "Funding & Donations",
+      "items": [
+        {
+          "question": "How are funds distributed?",
+          "answer": "Our council distributes funds from the general fund quarterly. We prioritize impactful Litecoin projects. Additionally, donors can recommend specific mission-aligned open-source projects for funding. While we consider donor recommendations, the final decision on distribution remains with Lite.Space."
+        },
+        {
+          "question": "What percentage of my donation directly supports projects?",
+          "answer": "100% of donations to the general fund and specific open-source projects go to grant recipients."
+        },
+        {
+          "question": "In what form are grants distributed?",
+          "answer": "Grants are given in Litecoin."
+        },
+        {
+          "question": "How do you process Litecoin donations?",
+          "answer": "We employ BTCPay Server and Electrum-LTC for on-chain Litecoin donations. All donations are stored in a multi-sig wallet overseen by our council."
+        },
+        {
+          "question": "Are my donations tax deductible?",
+          "answer": "Currently, Lite.Space, under The Litecoin Foundation in Singapore, doesn't offer tax deductions for American Citizens. We're working on this feature. For substantial donations, U.S. citizens should [email us](support@lite.Space)."
+        }
+      ]
+    },
+    {
+      "category": "Governance & Transparency",
+      "items": [
+        {
+          "question": "Can you elaborate on your Council?",
+          "answer": "Our Council comprises five members. Standard decisions are made by a simple majority (3-2), whereas council-specific changes necessitate a 4-1 majority. We publicly announce new Council members."
+        },
+        {
+          "question": "Is Lite.Space truly 100% passthrough?",
+          "answer": "Absolutely. Our operational costs, such as legal and accounting services, are separate from project donations."
+        },
+        {
+          "question": "When do you announce funding opportunities?",
+          "answer": "We declare funding opportunities quarterly, based on available funds. Projects should be open-source, related to Litecoin, or support Litecoin usage and align with our mission."
+        }
+      ]
+    }
+  ]
 }

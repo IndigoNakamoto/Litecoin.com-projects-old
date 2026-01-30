@@ -58,7 +58,7 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({
     ) {
       // If the click is outside the component, set highlight to false
       // You might need to lift state up or use a context if highlight is a prop
-      console.log('Click outside')
+      // console.log('Click outside')
     }
   }
 
@@ -73,14 +73,14 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({
 
   const thickerBorderClass =
     showContent || highlight
-      ? 'border-2 border-blue-200 dark:border-blue-600'
+      ? 'border-2 border-blue-200 dark:border-[#c6d3d6]'
       : ''
 
   return (
     // Add ref to the div to reference it in handleClickOutside
     <div
       ref={projectUpdateRef}
-      className={`my-8 rounded-lg border bg-white p-4 dark:bg-gray-900 ${thickerBorderClass}`}
+      className={`my-8 border border-[#eeeeee] bg-white p-4  ${thickerBorderClass}`}
     >
       <h6
         className="cursor-pointer text-sm text-gray-500 hover:text-blue-500 hover:underline"
@@ -92,20 +92,23 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({
         {/* Conditionally render text based on isCopied */}
       </h6>
       <h2 className="text-xl font-semibold">{title}</h2>
-      <Link
+      {/* <Link
         className="mt-0"
         href={`https://www.twitter.com/${authorTwitterHandle}`}
       >
         <h6 className="mt-0">{`@${authorTwitterHandle}`}</h6>
-      </Link>
-      <h6 className="mb-4 text-gray-600 dark:text-gray-500">{date}</h6>
-      <hr className="my-4 border-t border-gray-300 dark:border-gray-700" />
+      </Link> */}
+      <h6 className="mb-4 text-gray-600 ">{date}</h6>
+      <hr className="my-4 border-t border-gray-300 " />
       <div className="content">
-        {summary && <ReactMarkdown>{summary}</ReactMarkdown>}
+        {summary && <p className="markdown">{summary}</p>}
         {showContent && content && (
           <>
-            <hr className="my-4 border-t border-gray-300 dark:border-gray-700" />
-            <ReactMarkdown>{content}</ReactMarkdown>
+            <hr className="my-4 border-t border-gray-300 " />
+            <div
+              dangerouslySetInnerHTML={{ __html: content }}
+              className="markdown"
+            />
           </>
         )}
       </div>
@@ -124,14 +127,14 @@ const ProjectUpdate: React.FC<ProjectUpdateProps> = ({
         {content && (
           <button onClick={() => setShowContent(!showContent)}>
             {showContent ? (
-              <div className="flex items-center hover:text-blue-500 hover:underline dark:text-white dark:hover:text-blue-300">
+              <div className="flex items-center hover:text-blue-500 hover:underline ">
                 Read Less{' '}
-                <FontAwesomeIcon icon={faChevronUp} className="ml-2" />
+                <FontAwesomeIcon icon={faChevronUp} className="ml-2 w-4" />
               </div>
             ) : (
-              <div className="flex items-center hover:text-blue-500 hover:underline dark:text-white dark:hover:text-blue-300">
+              <div className="flex items-center  hover:text-[#333333] hover:underline ">
                 Read More{' '}
-                <FontAwesomeIcon icon={faChevronRight} className="ml-2" />
+                <FontAwesomeIcon icon={faChevronRight} className="ml-2 h-4" />
               </div>
             )}
           </button>

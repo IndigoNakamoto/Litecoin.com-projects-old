@@ -4,32 +4,15 @@ This styling is used for components/DonationForm
 Not used for project cards
 */
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-::-webkit-scrollbar {
-  width: 0; /* Remove scrollbar space */
-  background: transparent; /* Optional: make scrollbar invisible */
-}
+/* */
 
-ul::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge, and Firefox */
-ul {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Hide scrollbar for IE, Edge, and Firefox */
-html {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-.stickyAside {
-  position: -webkit-sticky; /* For Safari */
-  position: sticky;
-  top: 0; /* Adjust this value as needed */
+@font-face {
+  font-family: '` Grotesk';
+  src: url('/fonts/Space_Grotesk/SpaceGrotesk-VariableFont_wght.ttf')
+    format('truetype-variations');
+  font-weight: 100 900; /* Define the range of weights available */
+  font-style: normal;
+  font-display: swap; /* Ensures fonts are loaded quickly */
 }
 
 @font-face {
@@ -173,7 +156,7 @@ button.small {
 }
 
 button.group {
-  @apply border border-black  p-2 text-sm text-black;
+  @apply bg-[#C5D3D6] p-2 text-sm text-black;
 }
 
 button.pay {
@@ -190,4 +173,86 @@ button.pay:disabled {
 
 input[type='checkbox'] {
   @apply mr-2;
+}
+
+/* This styling is for the Header */
+
+/* Dropdown transition classes */
+.dropdown-enter {
+  opacity: 0;
+  transform: scaleY(0.9);
+  max-height: 0;
+  overflow: hidden;
+}
+
+.dropdown-enter-active {
+  opacity: 1;
+  transform: scaleY(1);
+  max-height: 300px; /* Adjust based on content */
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out,
+    max-height 300ms ease-in-out;
+}
+
+.dropdown-exit {
+  opacity: 1;
+  transform: scaleY(1);
+  max-height: 300px; /* Adjust based on content */
+  overflow: hidden;
+}
+
+.dropdown-exit-active {
+  opacity: 0;
+  transform: scaleY(0.9);
+  max-height: 0;
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out,
+    max-height 300ms ease-in-out;
+}
+
+/* Remove default number input styling */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* styles/globals.css or styles/Notification.module.css */
+@keyframes slide-up {
+  0% {
+    transform: translate(-50%, 100%);
+  }
+  100% {
+    transform: translate(-50%, -80px);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s forwards;
+}
+
+/* styles.css */
+.text-gradient-animation {
+  background: linear-gradient(90deg, #f0f0f0, #222222, #333333, #f0f0f0);
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-move 2s infinite;
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.no-scroll {
+  overflow-x: hidden;
 }

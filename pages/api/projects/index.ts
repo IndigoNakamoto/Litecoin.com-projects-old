@@ -10,7 +10,7 @@ export default async function handler(
     try {
       res.status(200).json(getAllPosts())
     } catch (err) {
-      console.log('pages/api/missions/index error: ', err)
+      // console.log('pages/api/projects/index error: ', err)
       res.status(500).json({ statusCode: 500, message: (err as Error).message })
     }
   } else {

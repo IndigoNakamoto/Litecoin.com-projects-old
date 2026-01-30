@@ -15,7 +15,7 @@ const LitecoinIcon = ({ kind, size = 20 }) => {
     <div>
       <span className="sr-only">{kind}</span>
       <LitecoinSVG
-        className={`fill-current text-gray-100  dark:text-gray-200 h-${size} w-${size}`}
+        className={`fill-current text-gray-100 h-${size} w-${size}`}
       />
     </div>
   )

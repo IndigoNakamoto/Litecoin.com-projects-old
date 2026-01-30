@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".contentlayer/generated",
-    ".contentlayer/generated/**/*.json",
+    ".contentlayer/generated/**/*.json"
   ],
   "exclude": ["node_modules"]
 }

@@ -6,22 +6,36 @@ class MyDocument extends Document {
     return (
       <Html lang={siteMetadata.language} className="scroll-smooth">
         <Head>
+          {/* Remove the redundant <style> tag with @import */}
+          {/* Correct Google Fonts Link */}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin=""
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
+
+          {/* Favicon Links */}
           <link
             rel="apple-touch-icon"
             sizes="76x76"
-            href="/static/favicons/apple-touch-icon.png"
+            href="/static/favicons/favicon-litecoin.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/static/favicons/favicon-32x32.png"
+            href="/static/favicons/favicon-litecoin.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/static/favicons/favicon-16x16.png"
+            href="/static/favicons/favicon-litecoin.png"
           />
           <link rel="manifest" href="/static/favicons/site.webmanifest" />
           <link
@@ -42,7 +56,7 @@ class MyDocument extends Document {
           />
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
         </Head>
-        <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
+        <body className="bg-[#333333] text-black antialiased dark:text-black">
           <Main />
           <NextScript />
         </body>

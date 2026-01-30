@@ -1,0 +1,135 @@
+// prisma/schema.prisma
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+/// Model to store OAuth tokens
+model Token {
+    id           Int      @id @default(autoincrement())
+    accessToken  String   @map("access_token")
+    refreshToken String   @map("refresh_token")
+    expiresAt    DateTime @map("expires_at")
+    refreshedAt  DateTime @map("refreshed_at")
+
+    @@map("tokens")
+}
+
+/// Enum for different types of donations
+enum DonationType {
+    fiat
+    crypto
+    stock
+}
+
+/// Model to represent donations
+model Donation {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    // Project Information
+    projectSlug    String @map("project_slug")
+    organizationId Int    @map("organization_id")
+
+    // Donation Details
+    donationType     DonationType @map("donation_type")
+    pledgeAmount     Decimal      @db.Decimal(18, 8)
+    assetSymbol      String?      @map("asset_symbol")
+    assetDescription String?      @map("asset_description")
+
+    // Donor Information
+    firstName  String? @map("first_name")
+    lastName   String? @map("last_name")
+    donorEmail String? @map("donor_email")
+
+    // Donor Settings
+    isAnonymous     Boolean @default(false) @map("is_anonymous")
+    taxReceipt      Boolean @default(false) @map("tax_receipt")
+    joinMailingList Boolean @default(false) @map("join_mailing_list")
+
+    // Donor Social Profiles
+    socialX                String? @map("social_x")
+    socialXimageSrc        String? @map("social_x_image_src")
+    socialFacebook         String? @map("social_facebook")
+    socialFacebookimageSrc String? @map("social_Facebook_image_src")
+    socialLinkedIn         String? @map("social_linkedin")
+    socialLinkedInimageSrc String? @map("social_LinkedIn_image_src")
+
+    // TGB 200 Response Values
+    donationUuid   String? @unique @map("donation_uuid") // stock
+    pledgeId       String? @unique @map("pledge_id") // crypto / fiat
+    depositAddress String? @map("deposit_address") // crypto
+
+    // Success Status
+    success Boolean @default(false) @map("success") // New field to track donation success
+
+    // Webflow processed for matching
+    processed Boolean @default(false) @map("processed")
+
+    // Webhook Event Related Fields
+    transactionHash        String?        @map("transaction_hash")
+    convertedAt            DateTime?      @map("converted_at")
+    netValueAmount         Decimal?       @map("net_value_amount")
+    netValueCurrency       String?        @map("net_value_currency")
+    grossAmount            Decimal?       @map("gross_amount")
+    payoutAmount           Decimal?       @map("payout_amount") @db.Decimal(10, 2)
+    payoutCurrency         String?        @map("payout_currency")
+    externalId             String?        @map("external_id")
+    campaignId             String?        @map("campaign_id")
+    valueAtDonationTimeUSD Decimal?       @map("value_at_donation_time_usd") @db.Decimal(10, 2)
+    currency               String?        @map("currency")
+    amount                 Decimal?       @map("amount") @db.Decimal(10, 2)
+    status                 String?        @map("status")
+    timestampms            DateTime?      @map("timestampms")
+    eid                    String?        @map("eid")
+    paymentMethod          String?        @map("payment_method")
+    // Additional Fields for Flexibility
+    eventData              Json?          @map("event_data")
+    // Relations
+    webhookEvents          WebhookEvent[] @relation("DonationWebhookEvents")
+
+    @@map("donations")
+}
+
+model MatchingDonationLog {
+    id            Int      @id @default(autoincrement())
+    donorId       String
+    donationId    Int
+    matchedAmount Decimal  @db.Decimal(10, 2)
+    date          DateTime @default(now())
+    projectSlug   String
+}
+
+/// Model to store individual webhook events
+model WebhookEvent {
+    id         Int      @id @default(autoincrement())
+    eventType  String   @map("event_type")
+    payload    Json // Decrypted payload
+    receivedAt DateTime @default(now()) @map("received_at")
+    processed  Boolean  @default(false)
+
+    // Relation to Donation
+    donation   Donation @relation("DonationWebhookEvents", fields: [donationId], references: [id])
+    donationId Int      @map("donation_id")
+    eid        String?  @unique @map("eid") // Assuming 'eid' is unique per event
+
+    @@map("webhook_events")
+}
+
+/// Model to store logs
+model Log {
+    id        Int      @id @default(autoincrement())
+    level     String   @map("level") // Log level (e.g., info, warn, error)
+    message   String   @map("message") // Log message
+    meta      Json?    @map("meta") // Additional metadata
+    timestamp DateTime @default(now()) @map("timestamp") // Timestamp of the log
+
+    @@map("logs")
+}

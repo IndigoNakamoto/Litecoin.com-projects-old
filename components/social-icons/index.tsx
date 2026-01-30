@@ -1,36 +1,51 @@
-//components/social-icons/index.tsx
-import Mail from './mail.svg'
-import Github from './github.svg'
-import Facebook from './facebook.svg'
-import Youtube from './youtube.svg'
-import Linkedin from './linkedin.svg'
-import Twitter from './twitter.svg'
-import Nostr from './nostr.svg'
-import X from './x.svg'
-import Reddit from './reddit.svg'
-import Telegram from './telegram.svg'
-import Globe from './globe.svg'
-import Discord from './discord.svg'
+// components/social-icons/index.tsx
+import { FaLink, FaEnvelope, FaGlobe, FaInfoCircle } from 'react-icons/fa' // FaEnvelope for mail icon
+import {
+  SiGithub,
+  SiFacebook,
+  SiYoutube,
+  SiLinkedin,
+  SiX,
+  SiReddit,
+  SiTelegram,
+  SiDiscord,
+} from 'react-icons/si'
+import React from 'react'
 
-// Icons taken from: https://simpleicons.org/
-// and from: https://www.flaticon.com/icon-fonts-most-downloaded
+// Icons taken from: https://react-icons.github.io/react-icons/
 
 const components = {
-  mail: Mail,
-  github: Github,
-  discord: Discord,
-  facebook: Facebook,
-  youtube: Youtube,
-  linkedin: Linkedin,
-  twitter: Twitter,
-  nostr: Nostr,
-  x: X,
-  reddit: Reddit,
-  telegram: Telegram,
-  website: Globe,
+  twitter: SiX, // Assuming SiX represents Twitter; replace if different
+  x: SiX,
+  github: SiGithub,
+  reddit: SiReddit,
+  email: FaEnvelope,
+  mail: FaEnvelope,
+  linkedin: SiLinkedin,
+  discord: SiDiscord,
+  facebook: SiFacebook,
+  youtube: SiYoutube,
+  nostr: null, // Nostr icon might not be available, handle separately if needed
+  telegram: SiTelegram,
+  website: FaGlobe,
+  link: FaLink,
+  info: FaInfoCircle,
 }
 
-const SocialIcon = ({ kind, href, size = 8 }) => {
+interface SocialIconProps {
+  kind: string
+  href: string
+  size?: number
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  noLink?: boolean // New prop to control link rendering
+}
+
+const SocialIcon: React.FC<SocialIconProps> = ({
+  kind,
+  href,
+  onClick,
+  noLink = false,
+}) => {
   if (
     !href ||
     (kind === 'mail' &&
@@ -38,25 +53,41 @@ const SocialIcon = ({ kind, href, size = 8 }) => {
   )
     return null
 
-  const SocialSvg = components[kind]
+  const IconComponent = components[kind]
+
+  // Handle cases where the icon might not be available
+  if (!IconComponent) return null
 
   const padding = 10
 
+  const iconElement = (
+    <div
+      className={`flex items-center justify-center h-${padding} w-${padding} rounded-lg transition-colors group-hover:text-gray-900`}
+    >
+      <IconComponent
+        className={`h-5 w-5 fill-current text-gray-700 transition-colors group-hover:text-gray-900`}
+      />
+    </div>
+  )
+
+  if (noLink) {
+    return (
+      <span className="inline-block text-gray-600 transition-colors duration-300 hover:text-gray-900">
+        {iconElement}
+      </span>
+    )
+  }
+
   return (
     <a
-      className="text-sm text-gray-500 transition hover:text-gray-600"
+      className={`inline-block text-gray-600 transition-colors duration-300 hover:text-gray-900`}
       target="_blank"
       rel="noopener noreferrer"
       href={href}
+      onClick={onClick}
     >
       <span className="sr-only">{kind}</span>
-      <div
-        className={`group flex h-${padding} w-${padding} items-center justify-center rounded-lg transition-colors duration-200 hover:bg-white dark:hover:bg-gray-800`}
-      >
-        <SocialSvg
-          className={` fill-current h-${8} w-${8} text-gray-700 transition-colors duration-200 group-hover:text-blue-300 dark:text-gray-200`}
-        />
-      </div>
+      {iconElement}
     </a>
   )
 }

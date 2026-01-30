@@ -1,76 +1,111 @@
-import Image from 'next/legacy/image'
+import Image from 'next/image'
+import React, { useState } from 'react'
+import { customImageLoader } from '../utils/customImageLoader'
 import Link from 'next/link'
 import { ProjectItem } from '../utils/types'
 
 export type ProjectCardProps = {
   project: ProjectItem
   openPaymentModal: (project: ProjectItem) => void
-  showButton?: boolean // Make showButton optional with a default value
+  bgColor: string // Accept bgColor as a prop
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  project,
-  openPaymentModal,
-}) => {
-  const {
-    slug,
-    title,
-    summary,
-    coverImage,
-    gitRepository,
-    twitterHandle,
-    nym,
-  } = project
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, bgColor }) => {
+  const { slug, title, summary, coverImage } = project
 
-  const showButton = project.bountyStatus !== 'completed'
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleClick = () => {
+    setIsLoading(true) // Set loading state to true on click
+  }
 
   return (
-    <figure className="h-full rounded-xl border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-900 sm:space-y-2">
-      <div className="relative h-64 w-full">
-        <Link href={`/missions/${slug}`} passHref>
-          <div className="relative h-64 w-full">
-            <Image
-              alt={title}
-              src={coverImage}
-              layout="fill"
-              objectFit="cover"
-              objectPosition="50% 50%"
-              className="cursor-pointer rounded-t-xl bg-white dark:bg-black"
-              priority={true}
-            />
-          </div>
-        </Link>
+    <Link
+      href={`/projects/${slug}`}
+      className={`flex flex-col justify-between rounded-md p-4 shadow sm:p-6 md:p-6 ${bgColor} w-full cursor-pointer space-y-4 overflow-y-auto sm:space-x-0 sm:space-y-0`}
+      onClick={handleClick}
+      aria-label={`View project: ${title}`}
+    >
+      {/* Updated Image Container */}
+      <div className="relative aspect-square w-full">
+        <Image
+          // Use the custom loader
+          loader={customImageLoader}
+          // Ensure this is a valid URL from Webflow
+          src={coverImage}
+          alt={title}
+          // Replaces layout="fill"
+          fill
+          className="rounded-sm"
+          priority={true}
+          sizes="(max-width: 768px) 100vw,
+                 (max-width: 1200px) 50vw,
+                 33vw"
+          style={{
+            objectFit: 'cover',
+            objectPosition: '50% 50%',
+          }}
+        />
       </div>
-
-      <figcaption className="flex h-max flex-col justify-between p-4">
-        <div className="h-32 ">
-          <h2 className="font-bold">{title}</h2>
-          <div className="line-clamp-3 ">{summary}</div>
-        </div>
-        <div className="grid grid-cols-2 pt-4">
-          <button
-            className={`rounded border border-stone-800 bg-stone-800 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:border-transparent  hover:bg-blue-400 hover:text-white dark:bg-white dark:text-black dark:hover:bg-blue-400 hover:dark:text-white ${
-              !showButton ? 'cursor-not-allowed opacity-50' : ''
-            }`}
-            onClick={() => openPaymentModal(project)}
-            disabled={!showButton}
+      <figcaption className="flex flex-1 flex-col justify-between pt-0 sm:pt-8">
+        <div className="h-auto">
+          <h2 className="font-space-grotesk text-2xl font-semibold leading-tight tracking-tight text-[#000000] sm:text-3xl">
+            {title}
+          </h2>
+          <p
+            className="pt-4 !text-[16px] text-[#000000] sm:text-base"
+            style={{
+              overflow: 'hidden',
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 4, // Limits to 4 lines
+            }}
           >
-            Donate
-          </button>
-          <div className="pt-2 text-center">
-            <Link
-              href={`/missions/${slug}`}
-              passHref
-              className="text-secondary-500 hover:text-secondary-600 dark:hover:text-secondary-400 hover:underline"
-              aria-label="View Details"
-            >
-              View Details &rarr;
-            </Link>
-          </div>
+            {summary}
+          </p>
+        </div>
+        <div className="mt-4 text-left">
+          {isLoading ? (
+            <span className="loading-text-gradient text-[14px]">
+              LOADING &rarr;
+            </span>
+          ) : (
+            <span className="text-secondary-500 hover:text-secondary-600 text-[14px]">
+              READ MORE &rarr;
+            </span>
+          )}
         </div>
       </figcaption>
-    </figure>
+
+      {/* CSS for Gradient Effect */}
+      <style jsx>{`
+        .loading-text-gradient {
+          background: linear-gradient(
+            70deg,
+            #333333,
+            #333333,
+            #7e7e7e,
+            #7e7e7e,
+            #333333
+          );
+          background-size: 200%;
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+          animation: gradient-move 3s infinite;
+        }
+
+        @keyframes gradient-move {
+          0% {
+            background-position: 200% 0;
+          }
+          100% {
+            background-position: -200% 0;
+          }
+        }
+      `}</style>
+    </Link>
   )
 }
 
-export default ProjectCard
+export default React.memo(ProjectCard)

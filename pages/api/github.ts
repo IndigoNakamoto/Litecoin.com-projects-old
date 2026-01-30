@@ -1,10 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next/types'
+import { Octokit } from '@octokit/rest'
+import axios from 'axios'
 
 const GH_ACCESS_TOKEN = process.env.GH_ACCESS_TOKEN
 const GH_ORG = process.env.GH_ORG
 const GH_APP_REPO = process.env.GH_APP_REPO
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL
 
-import { Octokit } from '@octokit/rest'
 const octokit = new Octokit({ auth: GH_ACCESS_TOKEN })
 
 export default async function handler(
@@ -12,75 +14,118 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    if (!GH_ACCESS_TOKEN || !GH_ORG || !GH_APP_REPO) {
+    if (!GH_ACCESS_TOKEN || !GH_ORG || !GH_APP_REPO || !DISCORD_WEBHOOK_URL) {
       throw new Error('Env misconfigured')
     }
-    // console.log(`REPO: ${GH_ORG}/${GH_APP_REPO}`)
 
-    const byOrFor = req.body.LTS ? 'for' : 'by'
-    const issueTitle = `${req.body.project_name} ${byOrFor} ${req.body.your_name}`
+    // Log incoming request data for debugging
+    // console.log('Received Data:', req.body)
 
-    // Condensed information for screening purposes, no PII
+    // Extract structured data from request body
+    const {
+      project_overview: {
+        project_name = 'No project name provided',
+        project_description = 'No description provided',
+        main_focus = 'other',
+        potential_impact = 'No impact information provided',
+        project_repository = 'No repository provided',
+        social_media_links = '',
+        open_source = 'null', // Changed default to 'null'
+        open_source_license = '', // Added open_source_license
+        partially_open_source = '', // Added partially_open_source
+      },
+      project_budget: {
+        proposed_budget = 'No budget provided',
+        received_funding = false,
+        prior_funding_details = '',
+      },
+      applicant_information: {
+        your_name = 'Anonymous',
+        email = 'No email provided',
+        is_lead_contributor = true,
+        other_lead = '',
+        personal_github = '',
+        other_contact_details = '',
+        prior_contributions = 'No prior contributions provided',
+        references = 'No references provided',
+      },
+    } = req.body
+
+    const byOrFor = received_funding ? 'for' : 'by'
+    const issueTitle = `${project_name} ${byOrFor} ${your_name}`
+
+    // Create the issue body with the restructured data
     const issueBody = `
-### Description
+# Project Submission
 
-${req.body.short_description}
+## Project Overview
 
-### Potential Impact
+**Project Name:** ${project_name}
 
-${req.body.potential_impact}
+**Description:** ${project_description}
 
-### Timeline & Milestones
+**Main Focus:** ${main_focus}
 
-${req.body.timelines}
+**Potential Impact:** ${potential_impact}
 
-### Proposed Budget
+**Repository:** ${project_repository}
 
-${req.body.proposed_budget}
+**Social Media Links:** ${social_media_links}
 
-**Prior funding:** ${req.body.has_received_funding ? 'Yes' : 'No'}
+**Open Source:** ${
+      open_source === 'yes' ? 'Yes' : open_source === 'no' ? 'No' : 'Partially'
+    }
 
-${req.body.what_funding}
+${
+  open_source === 'yes' ? `**Open Source License:** ${open_source_license}` : ''
+}
+${
+  open_source === 'partially'
+    ? `**Partially Open Source:** ${partially_open_source}`
+    : ''
+}
 
-### References & Prior Contributions
+## Project Budget
 
-${req.body.references}
+**Proposed Budget:** ${proposed_budget}
 
-${req.body.bios}
+**Prior Funding:** ${received_funding ? 'Yes' : 'No'}
 
-### Anything Else
+**Funding Details:** ${prior_funding_details}
 
-${req.body.anything_else}
+## Applicant Information
 
-### Other Relevant Links
+**Your Name:** ${your_name}
 
-${req.body.relevant_links}
-${req.body.social_media}
+**Email:** ${email}
 
----
+**Lead Contributor:** ${is_lead_contributor ? 'Yes' : 'No'}
 
-${req.body.github}
-${req.body.personal_github}
-        `
+**Other Lead Contributor:** ${other_lead}
+
+**Personal GitHub:** ${personal_github}
+
+**Other Contact Details:** ${other_contact_details}
+
+**Prior Contributions:** ${prior_contributions}
+
+**References:** ${references}
+    `
 
     // Label set according to "main focus"
-    const mainFocus = `${req.body.main_focus}`.toLowerCase()
-    const issueLabels = [mainFocus]
-    if (mainFocus === 'lightning') {
+    const lowerCaseFocus = main_focus.toLowerCase()
+    const issueLabels = [lowerCaseFocus]
+    if (lowerCaseFocus === 'lightning') {
       issueLabels.push('litecoin') // LN = subset of Litecoin
     }
 
-    // Tag depending on request for grant and/or request for listing
-    req.body.general_fund && issueLabels.push('grant')
-    req.body.explore_page && issueLabels.push('website')
-
     // Additional tags based on yes/no answers
-    req.body.has_received_funding && issueLabels.push('prior funding')
-    !req.body.free_open_source && issueLabels.push('not FLOSS')
-    !req.body.are_you_lead && issueLabels.push('surrogate')
+    if (received_funding) issueLabels.push('prior funding')
+    if (open_source === 'no') issueLabels.push('not FLOSS')
+    if (!is_lead_contributor) issueLabels.push('surrogate')
 
     try {
-      await octokit.rest.issues.create({
+      const { data: issue } = await octokit.rest.issues.create({
         owner: GH_ORG,
         repo: GH_APP_REPO,
         title: issueTitle,
@@ -88,8 +133,13 @@ ${req.body.personal_github}
         labels: issueLabels,
       })
 
+      await axios.post(DISCORD_WEBHOOK_URL, {
+        content: `New project submission: **${project_name}**\n${issue.html_url}`,
+      })
+
       res.status(200).json({ message: 'success' })
     } catch (err) {
+      console.error('Error creating issue:', err)
       res.status(500).json({ statusCode: 500, message: (err as Error).message })
     }
   } else {

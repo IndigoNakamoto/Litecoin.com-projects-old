@@ -14,7 +14,7 @@ export default function PageLayout({ children, content }: Props) {
 
   return (
     <>
-      <PageSEO title={`Lite.Space | ${title}`} description={`${summary}`} />
+      <PageSEO title={`Litecoin | ${title}`} description={`${summary}`} />
       <PageSection title={title} image={image}>
         {children}
       </PageSection>

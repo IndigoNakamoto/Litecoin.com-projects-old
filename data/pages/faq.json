@@ -1,57 +1,108 @@
 {
   "questionsAndAnswers": [
     {
-      "category": "General Information",
-      "items": [
-        {
-          "question": "What is open source?",
-          "answer": "Open source is a type of software that is developed through public collaboration and made available to the public for free. The source code is available for anyone to use, study, modify, and redistribute."
-        },
-        {
-          "question": "What is Lite.Space?",
-          "answer": "Lite.Space is an initiative of The Litecoin Foundation, a Singapore-registered non-profit (UEN: 201709179W). We advocate for Litecoin (LTC) adoption, education, and development. Our platform supports Litecoin Core contributors and open-source tools through sustainable funding. Donors can fund specific projects or contribute to our general fund, which we use to grant money to projects enhancing Litecoin infrastructure."
-        },
-        {
-          "question": "How can I reach Lite.Space?",
-          "answer": "<support@Lite.Space> or tweet [@LTCFoundation](https://www.twitter.com/ltcfoundation). Our mailing address: Litecoin Foundation Ltd., 111 North Bridge Rd, #08-11 Peninsula Plaza, Singapore 179098."
-        }
-      ]
-    },
-    {
       "category": "Funding & Donations",
       "items": [
         {
           "question": "How are funds distributed?",
-          "answer": "Our council distributes funds from the general fund quarterly. We prioritize impactful Litecoin projects. Additionally, donors can recommend specific mission-aligned open-source projects for funding. While we consider donor recommendations, the final decision on distribution remains with Lite.Space."
+          "answer": "Our council distributes funds from the general fund quarterly, prioritizing impactful Litecoin projects. Donors can also recommend mission-aligned open-source projects for funding. While we consider these recommendations, the final decision on distribution is made by The Litecoin Foundation."
         },
         {
           "question": "What percentage of my donation directly supports projects?",
-          "answer": "85% of donations to the general fund and specific open-source projects go to grant recipients, the other 15% fund the operations of Lite.Space."
+          "answer": "85% of donations directly support projects, while the remaining 15% funds the operations of the Litecoin Foundation."
         },
         {
           "question": "In what form are grants distributed?",
-          "answer": "Grants are given in Litecoin."
+          "answer": "Grants are distributed in Litecoin (LTC)."
         },
         {
           "question": "How do you process Litecoin donations?",
-          "answer": "We employ BTCPay Server and Electrum-LTC for on-chain Litecoin donations. All donations are stored in a multi-sig wallet overseen by our council."
+          "answer": "We use The Giving Block to process donations. All donations are securely stored in a multi-signature wallet overseen by our council, ensuring transparency and security."
         },
         {
-          "question": "Are my donations tax deductible?",
-          "answer": "Currently, Lite.Space, under The Litecoin Foundation in Singapore, doesn't offer tax deductions for American Citizens. We're working on this feature. For substantial donations, U.S. citizens should <support@Lite.Space>."
+          "question": "Are my donations tax-deductible?",
+          "answer": "Yes, Litecoin Foundation Inc. is a 501(c)(3) nonprofit organization, making donations tax-deductible for U.S. citizens."
+        },
+        {
+          "question": "What is The Giving Block?",
+          "answer": "The Giving Block is a leading platform for cryptocurrency donations, enabling nonprofits like the Litecoin Foundation to accept a wide range of cryptocurrencies securely and efficiently."
+        },
+        {
+          "question": "Which cryptocurrencies can I donate using The Giving Block?",
+          "answer": "While our primary focus is on Litecoin (LTC), The Giving Block supports a variety of cryptocurrencies including Bitcoin (BTC), Ethereum (ETH), and others. Please visit [The Giving Block’s website](https://thegivingblock.com) for a complete list of supported cryptocurrencies."
+        },
+        {
+          "question": "How secure are my donations?",
+          "answer": "Donations are handled through The Giving Block’s secure platform and stored in a multi-signature wallet managed by our council. This ensures that funds are protected against unauthorized access and are handled with the highest security standards."
+        },
+        {
+          "question": "How do I receive a tax receipt for my donation?",
+          "answer": "After making a donation, you will receive an automated tax receipt via email. If you do not receive one, please contact us at [donations@litecoinfoundation.org](mailto:donations@litecoinfoundation.org)."
+        },
+        {
+          "question": "Can I donate anonymously?",
+          "answer": "Yes, you can choose to donate anonymously through The Giving Block. However, please note that providing an email address is necessary for donation confirmation & tax receipt purposes."
+        },
+        {
+          "question": "How long does it take for my donation to be processed?",
+          "answer": "Cryptocurrency donations are typically processed within minutes to a few hours, depending on network confirmations. Once processed, funds are immediately available in our multi-signature wallet."
+        },
+        {
+          "question": "What happens after I make a donation?",
+          "answer": "After your donation is processed, it is securely stored in our multi-signature wallet. You will receive a confirmation email along with a tax receipt. Your donation will then be allocated to projects based on our funding priorities and council decisions."
+        },
+        {
+          "question": "How can I track the impact of my donation?",
+          "answer": "We provide regular updates on funded projects through our website and newsletters. Additionally, you can visit our [Projects](https://litecoin.com/projects) page to see detailed information about ongoing and completed initiatives."
+        },
+        {
+          "question": "Is there a minimum donation amount?",
+          "answer": "There is a $2.50 minimum donation. Every contribution, big or small, helps support the growth and development of the Litecoin ecosystem."
+        },
+        {
+          "question": "How can I stay informed about how donations are used?",
+          "answer": "We regularly publish reports and updates on our website and through newsletters. Additionally, you can follow us on our social media channels or subscribe to our mailing list to receive the latest information about our initiatives and the impact of your donations."
         }
       ]
     },
     {
-      "category": "Governance & Transparency",
+      "category": "Submitting a Project",
       "items": [
         {
-          "question": "Can you elaborate on your Council?",
-          "answer": "Our Council comprises five members. Standard decisions are made by a simple majority (3-2), whereas council-specific changes necessitate a 4-1 majority. We publicly announce new Council members."
+          "question": "How do I submit a project for funding?",
+          "answer": "To submit a project, visit our [Submit a Project](https://litecoin.com/submit) page and fill out the Project Submission Form. Provide detailed information about your project, including its objectives, impact, and how it aligns with the Litecoin Foundation's mission."
         },
         {
-          "question": "When do you announce funding opportunities?",
-          "answer": "We declare funding opportunities quarterly, based on available funds. Projects should be open-source, related to Litecoin, or support Litecoin usage and align with our mission."
+          "question": "How long does it take to review a submitted project?",
+          "answer": "Our council reviews submitted projects on a quarterly basis. Typically, you can expect to receive feedback or a decision within 4-6 weeks after the submission deadline."
+        },
+        {
+          "question": "How will I be notified if my project is approved?",
+          "answer": "If your project is approved, you will receive an email notification from our team with further instructions and any additional information required to proceed with the funding process."
+        },
+        {
+          "question": "Can I submit multiple projects?",
+          "answer": "Yes, you can submit multiple projects. However, each project will be evaluated independently based on its own merits and alignment with the foundation's objectives."
+        },
+        {
+          "question": "What types of projects are eligible for funding?",
+          "answer": "Eligible projects include open-source development, community initiatives, educational programs, marketing campaigns, and infrastructure improvements that support the Litecoin ecosystem. Projects should demonstrate clear benefits and alignment with our mission."
+        },
+        {
+          "question": "Is there a fee to submit a project?",
+          "answer": "No, there is no fee to submit a project for consideration. Our goal is to support initiatives that benefit the Litecoin community without financial barriers."
+        },
+        {
+          "question": "Can I make changes to my project submission after submitting?",
+          "answer": "If you need to make changes to your submission, please contact us at [@ltcfoundation](www.x.com/ltcfoundation) as soon as possible. We will do our best to accommodate updates before the review process begins."
+        },
+        {
+          "question": "What happens if my project is not approved?",
+          "answer": "If your project is not approved, you will receive feedback outlining the reasons. You are welcome to address the feedback and resubmit your project in a future funding cycle."
+        },
+        {
+          "question": "Can international organizations submit projects?",
+          "answer": "Yes, international organizations are welcome to submit projects, provided they align with the Litecoin Foundation's mission and meet our funding criteria."
         }
       ]
     }

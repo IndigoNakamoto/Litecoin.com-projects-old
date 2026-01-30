@@ -1,13 +1,15 @@
 function FormButton({ variant, children, ...rest }) {
-  const defaultVariant =
-    'bg-blue-500 hover:bg-blue-700 text-xl text-white font-bold py-2 px-4 rounded'
   const buttonVariants = {
-    enabled: defaultVariant,
-    disabled: `${defaultVariant} opacity-50 cursor-not-allowed`,
+    enabled:
+      'bg-[#222222] text-xl font-semibold py-2 px-4 rounded-node hover:opacity-75', // Existing styles
+    // Add a more specific class
+    enabledSpecific:
+      'bg-[#222222] text-xl font-semibold py-2 px-4 rounded-node hover:opacity-75 specific-button-class',
+    disabled: 'bg-[#f3ccc4] text-xl  py-2 px-4 rounded-node cursor-not-allowed',
   }
 
   return (
-    <button className={`${buttonVariants[variant]} ...`} {...rest}>
+    <button className={buttonVariants[variant]} {...rest}>
       {children}
     </button>
   )

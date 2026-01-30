@@ -1,5 +1,6 @@
+// /components/FAQSection.tsx
 import React, { useState } from 'react'
-import ReactMarkdown from 'react-markdown' // Import the ReactMarkdown component
+import ReactMarkdown from 'react-markdown'
 
 type FAQItem = {
   question: string
@@ -11,38 +12,36 @@ type FAQCategory = {
   items: FAQItem[]
 }
 
-const ChevronRight: React.FC<{ className?: string }> = ({ className }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M9 18l6-6-6-6" />
-  </svg>
-)
+type BG = string
 
-const ChevronDown: React.FC<{ className?: string }> = ({ className }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M6 9l6 6 6-6" />
-  </svg>
-)
+const PlusIcon: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
+  return (
+    <div
+      className={`transform transition-transform duration-700 ${
+        isOpen ? 'rotate-[315deg]' : 'rotate-0'
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-6 w-6"
+      >
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+    </div>
+  )
+}
 
-export const FAQSection: React.FC<{ faqCategories: FAQCategory[] }> = ({
-  faqCategories,
-}) => {
-  // Changing the state to hold both category and question indices
+export const FAQSection: React.FC<{
+  faqs: any[] // Updated to any[] to handle the new data structure
+  bg?: BG
+}> = ({ faqs, bg = '#222222' }) => {
+  // console.log('FAQ SECTION COMPONENT, FAQS: ', faqs)
   const [openIndex, setOpenIndex] = useState<{
     catIndex: number
     qIndex: number
@@ -56,10 +55,24 @@ export const FAQSection: React.FC<{ faqCategories: FAQCategory[] }> = ({
     ) {
       setOpenIndex(null)
     } else {
-      setOpenIndex({ catIndex, qIndex })
+      // Close the currently open FAQ first
+      setOpenIndex(null)
+      // Open the new FAQ after a short delay to allow the close animation to complete
+      setTimeout(() => {
+        setOpenIndex({ catIndex, qIndex })
+      }, 300)
     }
   }
-  if (!faqCategories || faqCategories.length === 0) {
+
+  const getMaxHeight = (catIndex: number, qIndex: number) => {
+    return openIndex &&
+      openIndex.catIndex === catIndex &&
+      openIndex.qIndex === qIndex
+      ? 'max-h-[1000px]' // Adjust this value as needed
+      : 'max-h-0'
+  }
+
+  if (!faqs || faqs.length === 0) {
     return (
       <div className="">
         <h3 className="">Frequently Asked Questions</h3>
@@ -67,17 +80,39 @@ export const FAQSection: React.FC<{ faqCategories: FAQCategory[] }> = ({
     )
   }
 
+  // **Step 1: Group FAQs by Category**
+  const categoryMap: { [category: string]: FAQItem[] } = {}
+
+  faqs.forEach((faq) => {
+    // Extract the necessary fields from fieldData
+    const { category = 'General', name: question, answer } = faq.fieldData
+
+    const faqItem: FAQItem = {
+      question,
+      answer,
+    }
+
+    // Assign FAQs to their respective categories
+    if (categoryMap[category]) {
+      categoryMap[category].push(faqItem)
+    } else {
+      categoryMap[category] = [faqItem]
+    }
+  })
+
+  // Convert the categoryMap into an array for rendering
+  const faqCategories: FAQCategory[] = Object.keys(categoryMap).map(
+    (category) => ({
+      category,
+      items: categoryMap[category],
+    })
+  )
+
   return (
     <div>
-      <h6 className="py-8 text-4xl font-semibold text-black dark:text-gray-300">
-        Frequently Asked Questions
-      </h6>
       {faqCategories.map((category, catIndex) => (
-        <div
-          key={catIndex}
-          className="mb-8 border-t border-gray-400 dark:border-gray-700"
-        >
-          <h4 className="mb-4 mt-4 text-2xl font-medium text-gray-700 dark:text-gray-300">
+        <div key={catIndex} className="">
+          <h4 className="mb-4 pt-4 font-space-grotesk text-[30px] font-semibold text-[black] ">
             {category.category.trim()}
           </h4>
           {category.items.map((faq, qIndex) => (
@@ -89,28 +124,36 @@ export const FAQSection: React.FC<{ faqCategories: FAQCategory[] }> = ({
                     handleToggle(catIndex, qIndex)
                   }
                 }}
-                className="flex w-full cursor-pointer items-center justify-between border border-gray-300 bg-gray-100 p-4 text-left text-gray-700 transition duration-300 hover:bg-white focus:border-gray-400 focus:bg-white focus:outline-none dark:border-gray-800 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:focus:bg-gray-700"
+                style={{ backgroundColor: bg }}
+                className="flex w-full cursor-pointer items-center justify-between rounded-none p-6 text-left font-space-grotesk text-xl font-semibold text-[#c6d3d6] focus:border-[#222222] focus:outline-none"
               >
                 <span>{faq.question}</span>
-                {openIndex &&
-                openIndex.catIndex === catIndex &&
-                openIndex.qIndex === qIndex ? (
-                  <ChevronDown className="h-5 w-5" />
-                ) : (
-                  <ChevronRight className="h-5 w-5" />
-                )}
+                <PlusIcon
+                  isOpen={
+                    openIndex !== null &&
+                    openIndex.catIndex === catIndex &&
+                    openIndex.qIndex === qIndex
+                  }
+                />
               </button>
 
               <div
-                className={`pb-8 pl-4 pt-6 text-gray-700 dark:text-gray-300 ${
-                  openIndex &&
-                  openIndex.catIndex === catIndex &&
-                  openIndex.qIndex === qIndex
-                    ? 'block'
-                    : 'hidden'
-                }`}
+                className={`overflow-hidden border border-[black] bg-white transition-all duration-700 ${getMaxHeight(
+                  catIndex,
+                  qIndex
+                )}`}
               >
-                <ReactMarkdown className="markdown">{faq.answer}</ReactMarkdown>
+                <div
+                  className="text-md p-6 text-gray-700"
+                  style={{
+                    fontFamily:
+                      'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif',
+                  }}
+                >
+                  <ReactMarkdown className="text-md">
+                    {faq.answer}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           ))}

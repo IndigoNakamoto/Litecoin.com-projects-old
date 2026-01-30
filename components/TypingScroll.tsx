@@ -138,7 +138,7 @@ export default function TypingScroll() {
           <div
             key={index}
             style={{ lineHeight: '50px' }}
-            className="dark:text-white"
+            className="font-space-grotesk"
           >
             {word}
           </div>

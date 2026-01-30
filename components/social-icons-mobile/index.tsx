@@ -21,7 +21,7 @@ const components = {
   x: X,
 }
 
-const SocialIcon = ({ kind, href, size = 8 }) => {
+const SocialIcon = ({ kind, href }) => {
   if (
     !href ||
     (kind === 'mail' &&
@@ -33,14 +33,15 @@ const SocialIcon = ({ kind, href, size = 8 }) => {
 
   return (
     <a
-      className="text-sm text-gray-500 transition hover:text-gray-600"
+      className="
+       text-gray-500 transition hover:text-gray-600"
       target="_blank"
       rel="noopener noreferrer"
       href={href}
     >
       <span className="sr-only">{kind}</span>
       <SocialSvg
-        className={`fill-current text-gray-100 hover:text-blue-300 dark:text-gray-200 dark:hover:text-blue-300 h-${size} w-${size}`}
+        className={`fill-current text-[#222222] hover:text-[#555555]`}
       />
     </a>
   )

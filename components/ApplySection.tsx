@@ -14,12 +14,13 @@ export default function ApplySection({
   style = 'markdown',
 }: Props) {
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      <PageHeading title={title}>
-        <div className={`${style} max-w-none p-4  xl:col-span-2`}>
-          {children}
-        </div>
-      </PageHeading>
+    <div className="bg-white p-8">
+      <div className="m-auto my-auto min-h-screen max-w-2xl bg-white py-32">
+        <h1 className="markdown m-auto items-center py-4 font-space-grotesk text-4xl font-semibold">
+          {title}
+        </h1>
+        {children}
+      </div>
     </div>
   )
 }

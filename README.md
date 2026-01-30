@@ -1,14 +1,36 @@
-# Lite.Space
+# Litecoin OpenSource Fund
 
-This is the codebase behind [Lite.Space](https://Lite.Space).
+Powering open-source Litecoin development. Contribute to innovative FOSS projects and help grow the ecosystem.
+
+![Litecoin OpenSource Fund Logo](/Lite.Space%20Logo.png)
+
+See it live: [litecoin.com/projects](https://litecoin.com/projects)
+
+This is the codebase behind the Litecoin OpenSource Fund website.
 
 ## Getting started
 
 The website is a simple [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). To run it locally you'll need Node.js 14.6.0 or newer. After cloning repository try following 3 commands in terminal:
 
-- `npm run dev` for running a development instance with hot-reloading, file watching and task re-running
-- `npm run build` for compiling the project.
-- `npm start` for starting your app in production mode
+```bash
+npm run dev
+```
+
+for running a development instance with hot-reloading, file watching and task re-running
+
+```bash
+npm run build
+```
+
+for compiling the project.
+
+```bash
+npm start
+```
+
+for starting your app in production mode
+
+Before running the project, copy the `.env.example` file to `.env.local` and provide the necessary environment variables for BTCPay and Stripe.
 
 If you start the website (either in development or production mode), you can access it on http://localhost:3000
 
@@ -26,10 +48,6 @@ If you start the website (either in development or production mode), you can acc
 
 ## Contributing to the project
 
-PRs are welcome! Fork the repository on your GitHub account, push changes to new feature branch and then open a new pull request on [github.com/OpenSats/website/pulls](github.com/OpenSats/website/pulls).
+PRs are welcome! Fork the repository on your GitHub account, push changes to new feature branch and then open a new pull request on github.com/IndigoNakamoto/Litecoin-OpenSource-Fund/pulls.
 
-Thanks for supporting OpenSats!
-
-## Clear community twitter image cache
-
-search and uncomment //&clearCache=true
+Thanks for supporting open-source Litecoin development!

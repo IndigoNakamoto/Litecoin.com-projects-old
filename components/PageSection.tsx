@@ -10,9 +10,9 @@ interface Props {
 
 export default function PageSection({ title, image, children }: Props) {
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700 ">
+    <div className="divide-y divide-gray-200 ">
       <PageHeading title={title}>
-        <div className="markdown max-w-none pb-8 pt-8 dark:prose-dark xl:col-span-2">
+        <div className="markdown max-w-none pb-8 pt-8 xl:col-span-2">
           {children}
         </div>
         <div className="flex flex-col items-center space-x-2 pl-4 pt-8 xl:block">

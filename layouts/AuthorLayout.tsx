@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { ReactNode } from 'react'
 // import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
@@ -61,7 +62,7 @@ export default function AuthorLayout({ children, content }: Props) {
               <SocialIcon kind="twitter" href={twitter} />
             </div>
           </div>
-          <div className="prose max-w-none pb-8 pt-8 dark:prose-dark xl:col-span-2">
+          <div className="dark:prose-dark prose max-w-none pb-8 pt-8 xl:col-span-2">
             {children}
           </div>
         </div>

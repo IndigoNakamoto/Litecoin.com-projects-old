@@ -10,7 +10,7 @@ export default async function handler(
     try {
       res.status(200).json(getPostBySlug(<string>req.query.slug))
     } catch (err) {
-      console.log('pages/api/projects/[slug] error: ', err)
+      // console.log('pages/api/projects/[slug] error: ', err)
       res.status(500).json({ statusCode: 500, message: (err as Error).message })
     }
   } else {

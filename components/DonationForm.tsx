@@ -8,7 +8,8 @@ import Link from './Link'
 
 // Font Awesome
 import { config } from '@fortawesome/fontawesome-svg-core'
-import Image from 'next/legacy/image'
+import Image from 'next/image'
+import { customImageLoader } from '../utils/customImageLoader'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import React from 'react'
@@ -128,10 +129,7 @@ const DonationSteps: React.FC<DonationStepsProps> = ({
       <section className="flex flex-col gap-1">
         <div className="mb-4">
           <h3>
-            Name{' '}
-            <span className="text-sm  text-gray-600 dark:text-gray-400">
-              (Optional)
-            </span>
+            Name <span className="text-sm  text-gray-600 ">(Optional)</span>
           </h3>
           <input
             type="text"
@@ -143,14 +141,11 @@ const DonationSteps: React.FC<DonationStepsProps> = ({
         </div>
         <div className="mb-4">
           <h3>
-            Email{' '}
-            <span className="text-sm  text-gray-600 dark:text-gray-400">
-              (Optional)
-            </span>
+            Email <span className="text-sm  text-gray-600 ">(Optional)</span>
           </h3>
           <input
             type="email"
-            placeholder={`donate@litecoin.net`}
+            placeholder={`donate@litecoin.com`}
             className={` mt-1 block w-full rounded-md border-gray-300 text-black shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 ${
               emailError ? 'border-red-500' : ''
             }`}
@@ -171,7 +166,7 @@ const DonationSteps: React.FC<DonationStepsProps> = ({
         <div className="mb-4">
           <h3 className="mb-1">
             {/* TODO: display X logo */}X
-            <span className="ml-1 text-sm  text-gray-600 dark:text-gray-400">
+            <span className="ml-1 text-sm  text-gray-600 ">
               (Optional: Your X profile will be publicly shared as a community
               supporter for this project)
             </span>
@@ -183,19 +178,24 @@ const DonationSteps: React.FC<DonationStepsProps> = ({
           ) : (
             <div className="flex items-center">
               <Image
+                // Use the custom loader
+                loader={customImageLoader}
                 src={session.user.image}
                 alt={session.user.name}
                 width={45}
                 height={45}
                 className="rounded-full"
-                loading="lazy" // Apply lazy loading
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto',
+                }}
               />
               <div className="ml-2 flex items-center">
                 <div className="m-0 p-0">
-                  <h4 className="text-md font-bold text-gray-600 dark:text-gray-100">
+                  <h4 className="text-md font-bold text-gray-600 ">
                     {session.user.name}
                   </h4>
-                  <h4 className="text-md  text-gray-600 dark:text-gray-400">
+                  <h4 className="text-md  text-gray-600 ">
                     @{session.user.username}
                   </h4>
                 </div>
@@ -252,6 +252,10 @@ const DonationSteps: React.FC<DonationStepsProps> = ({
               alt="Litecoin"
               width={32}
               height={32}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+              }}
             />
           )}
           <span className="whitespace-nowrap text-2xl">
@@ -259,7 +263,7 @@ const DonationSteps: React.FC<DonationStepsProps> = ({
           </span>
         </button>
       </div>
-      <p className="mb-2 text-sm text-gray-500 dark:text-gray-300">
+      <p className="mb-2 text-sm text-gray-500 ">
         By donating, you agree to the{' '}
         <Link href="/terms" className="text-blue-300">
           Terms of Service

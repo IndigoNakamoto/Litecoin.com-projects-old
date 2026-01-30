@@ -14,19 +14,18 @@ declare module 'next-auth' {
 
 // Enums for clarity and cleaner codebase
 export enum ProjectCategory {
-  PROTOCOL = 'protocol',
-  BOUNTY = 'Bounty',
-  PROJECT = 'Project',
-  BUG_REPORT = 'bug-report',
-  OTHER = 'other',
-  DEVELOPMENT = 'Development Fund',
+  PROJECT = 'PROJECT',
+  BOUNTY = 'BOUNTY',
+  DEVELOPMENT = 'DEVELOPMENT',
+  OTHER = 'OTHER',
 }
 
 export enum BountyStatus {
-  OPEN = 'open',
-  IN_PROGRESS = 'in-progress',
-  COMPLETED = 'completed',
-  CLOSED = 'closed',
+  OPEN = 'Bounty Open',
+  CLOSED = 'Closed',
+  BOUNTY_CLOSED = 'Bounty Closed',
+  COMPLETED = 'Completed',
+  BOUNTY_COMPLETED = 'Bounty Completed',
 }
 
 export enum BugSeverity {
@@ -97,6 +96,7 @@ export type ProjectItem = {
   // Funding
   bountyAmount?: number
   bountyStatus?: BountyStatus
+  status?: string
   targetFunding?: number // The one-time funding goal
   fundingDeadline?: Date // Date by which target funding should be met
   isRecurring: boolean
@@ -108,14 +108,17 @@ export type ProjectItem = {
   recurringPeriod?: RecurringPeriod
   recurringStatus?: FundingStatus
   totalPaid?: number | undefined
+  serviceFeesCollected?: number
+  litecoinRaised?: number
+  litecoinPaid?: number
 
-  // Technical Details
-  techStack?: string[]
-  dependencies?: string[]
+  // // Technical Details
+  // techStack?: string[]
+  // dependencies?: string[]
 
-  // Documentation
-  documentationLink?: string
-  APIReference?: string
+  // // Documentation
+  // documentationLink?: string
+  // APIReference?: string
 }
 
 export type ProjectUpdate = {
@@ -170,3 +173,31 @@ export type Donation = {
 }
 
 export type TwitterUsers = [TwitterUser]
+
+export type CMSFAQItem = {
+  id: string
+  cmsLocaleId: string
+  lastPublished: string
+  lastUpdated: string
+  createdOn: string
+  isArchived: boolean
+  isDraft: boolean
+  fieldData: {
+    order: number
+    slug: string
+    name: string
+    answer: string
+    category?: string // Make category optional
+    project: string
+  }
+}
+
+export type FAQItem = {
+  question: string
+  answer: string
+}
+
+export type FAQCategory = {
+  category: string
+  items: FAQItem[]
+}

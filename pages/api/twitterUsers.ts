@@ -1,16 +1,14 @@
+// /pages/api/twitterUsers.ts
 import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 import { kv } from '@vercel/kv'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { usernames, clearCache } = req.query
-
   console.log('\n \n api/twitterUsers')
 
   if (!usernames) {
-    console.log('Usernames parameter is missing')
-    res.status(400).json({ error: 'Usernames parameter is required' })
-    return
+    return res.status(400).json({ error: 'Usernames parameter is required' })
   }
 
   const usernamesStr = Array.isArray(usernames)
@@ -20,20 +18,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     if (clearCache) {
-      // Clear cache logic
-      console.log(`Clearing cache for key: ${cacheKey}`)
       await kv.del(cacheKey)
     }
 
-    console.log('Checking KV for cached data')
-    let users = await kv.get<
-      { name: string; screen_name: string; profile_image_url_https: string }[]
-    >(cacheKey)
+    // Retrieve from KV
+    const cachedData = await kv.get<string>(cacheKey)
+    let users = cachedData ? JSON.parse(cachedData) : null
 
     if (!users) {
-      console.log('No cached data found, calling Twitter API using GET')
       const endpoint = `https://api.twitter.com/2/users/by?usernames=${usernamesStr}&user.fields=profile_image_url`
-
       const response = await axios.get(endpoint, {
         headers: {
           Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
@@ -46,12 +39,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         profile_image_url_https: obj.profile_image_url,
       }))
 
-      console.log('Caching the new data from Twitter API')
-      await kv.set(cacheKey, users) // Expires after 1 hour, adjust as needed
+      // Store JSON-serialized users with a TTL (e.g., 1 hour)
+      await kv.set(cacheKey, JSON.stringify(users), { ex: 3600 })
     }
 
     res.status(200).json(users)
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
       console.error('Error data:', error.response.data)
       console.error('Error status:', error.response.status)

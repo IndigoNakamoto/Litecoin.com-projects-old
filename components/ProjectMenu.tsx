@@ -60,53 +60,44 @@ const ProjectMenu: React.FC<ProjectMenuProps> = ({
   }
 
   return (
-    <nav className="relative mt-6 flex h-16 items-center justify-between border-b border-t border-gray-300 dark:border-gray-600">
-      {showLeftChevron && (
-        <button
-          className="z-10 rounded-lg bg-white bg-opacity-50 p-1 text-blue-600"
-          onClick={() => scrollMenu('left')}
-        >
-          <FontAwesomeIcon icon={faChevronLeft} size="2x" />
-        </button>
-      )}
-
+    <nav className="relative mt-6 flex h-16 items-center justify-between border-b border-t border-gray-300">
       <ul
         ref={menuRef}
-        className="overflow-x:overlay flex space-x-2 overflow-x-auto whitespace-nowrap py-4 dark:text-gray-100"
+        className="overflow-x:overlay flex space-x-2 overflow-x-auto whitespace-nowrap py-4"
         style={{ scrollSnapType: 'x mandatory' }}
       >
-        {/* Wrap the button in a div for each li */}
-        {['mission', 'faq', 'updates', 'comments', 'community'].map((item) => (
+        {/* Wrap the button in a div for each li. TODO: Decide to add community back 'community' */}
+        {['Info', 'faq', 'updates', 'posts'].map((item) => (
           <li
-            className="group flex h-16 items-center justify-center rounded-lg"
+            className="group flex h-16 items-center justify-center rounded-lg "
             key={item}
           >
-            {item === 'faq' && faqCount === 1 ? null : item === 'updates' && // Hide the entire button for "FAQ" when faqCount is 1
-              updatesCount === 0 ? null : item === 'comments' && // Hide the entire button for "Updates" when updatesCount is 0
-              commentCount === 0 ? null : ( // Hide the entire button for "Comments" when commentCount is 0
-              <div className="transform-gpu overflow-hidden rounded-xl transition duration-200 hover:bg-white dark:hover:bg-gray-800">
+            {item === 'faq' && faqCount === 0 ? null : item === 'updates' && // Hide the entire button for "FAQ" when faqCount is 1
+              updatesCount === 0 ? null : item === 'posts' && // Hide the entire button for "Updates" when updatesCount is 0
+              commentCount === 0 ? null : ( // Hide the entire button for "Posts" when commentCount is 0
+              <div className="transform-gpu overflow-hidden rounded-xl transition duration-200">
                 <button
                   onClick={() => handleMenuItemClick(item)}
-                  className={`text-lg ${
+                  className={`text-[14px] uppercase ${
                     activeItem === item
-                      ? 'font-semibold text-blue-500 dark:text-blue-300'
-                      : 'text-gray-700 dark:text-gray-100'
+                      ? 'font-semibold text-[#000000]'
+                      : 'text-gray-700'
                   }`}
                 >
                   {item === 'faq'
                     ? 'FAQ'
                     : item === 'updates'
                     ? 'Updates'
-                    : item === 'comments'
-                    ? 'Comments'
+                    : item === 'posts'
+                    ? 'Posts'
                     : item.charAt(0).toUpperCase() + item.slice(1)}{' '}
-                  {/* Display "FAQ," "Updates," and "Comments" in uppercase */}
+                  {/* Display "FAQ," "Updates," and "Posts" in uppercase */}
                   {item === 'faq' &&
                     faqCount > 1 && ( // Conditionally render the span if faqCount > 1
                       <span
                         className={`absolute text-xs ${
                           activeItem === 'faq'
-                            ? 'font-bold text-blue-600 dark:text-blue-400'
+                            ? 'font-bold text-[#000000]'
                             : 'font-semibold'
                         }`}
                       >
@@ -118,19 +109,19 @@ const ProjectMenu: React.FC<ProjectMenuProps> = ({
                       <span
                         className={`absolute text-xs ${
                           activeItem === 'updates'
-                            ? 'font-bold text-blue-600 dark:text-blue-400'
+                            ? 'font-bold text-[#000000]'
                             : 'font-semibold'
                         }`}
                       >
                         {updatesCount}
                       </span>
                     )}
-                  {item === 'comments' &&
+                  {item === 'posts' &&
                     commentCount > 0 && ( // Conditionally render the span if commentCount > 0
                       <span
                         className={`absolute text-xs ${
-                          activeItem === 'comments'
-                            ? 'font-bold text-blue-600 dark:text-blue-400'
+                          activeItem === 'posts'
+                            ? 'font-bold text-[#000000]'
                             : 'font-semibold'
                         }`}
                       >
@@ -143,15 +134,6 @@ const ProjectMenu: React.FC<ProjectMenuProps> = ({
           </li>
         ))}
       </ul>
-
-      {showRightChevron && (
-        <button
-          className="z-10 rounded-lg bg-white bg-opacity-50 p-1 text-blue-600"
-          onClick={() => scrollMenu('right')}
-        >
-          <FontAwesomeIcon icon={faChevronRight} size="2x" />
-        </button>
-      )}
     </nav>
   )
 }

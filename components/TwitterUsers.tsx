@@ -1,6 +1,7 @@
 // components/TwitterUsers.tsx
 import Link from './Link'
-import Image from 'next/legacy/image' // Import the next/image component
+import Image from 'next/image'
+// import { customImageLoader } from '../utils/customImageLoader'
 import Head from 'next/head'
 
 type TwitterUser = {
@@ -21,14 +22,13 @@ const TwitterUsers: React.FC<TwitterUsersProps> = ({ users }) => {
           {index < 3 && ( // Preload first three images (if critical)
             <Head>
               <link
-                rel="preload"
                 as="image"
                 href={user.profile_image_url_https.replace('_normal', '')}
               />
             </Head>
           )}
           <Link
-            href={`https://twitter.com/${user.screen_name}`}
+            href={`https://x.com/${user.screen_name}`}
             className=" transition-transform duration-200 ease-in-out hover:scale-105"
           >
             <Image
@@ -37,7 +37,12 @@ const TwitterUsers: React.FC<TwitterUsersProps> = ({ users }) => {
               width={100}
               height={100}
               className="rounded-full"
-              loading="lazy" // Apply lazy loading
+              // Apply lazy loading
+              loading="lazy"
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+              }}
             />
           </Link>
         </div>

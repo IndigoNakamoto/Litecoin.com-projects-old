@@ -1,0 +1,21 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "nodeVersion": "20.x",
+  "crons": [
+    {
+      "path": "/api/clearKV",
+      "schedule": "0 0,12 * * *"
+    },
+    {
+      "path": "/api/cron/daily",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/monthly",
+      "schedule": "0 0 1 * *"
+    }
+  ]
+}

@@ -69,6 +69,17 @@ export default NextAuth({
         throw new Error('Failed to update user session.')
       }
     },
+    // async redirect({ url, baseUrl }) {
+    //   // Allow relative URLs and URLs from the frontend
+    //   if (url.startsWith('/')) {
+    //     return `${process.env.NEXTAUTH_URL}${url}`
+    //   }
+    //   if (new URL(url).origin === baseUrl) {
+    //     return url
+    //   }
+    //   // Prevent open redirects
+    //   return baseUrl
+    // },
   },
   secret: process.env.NEXTAUTH_SECRET,
   // other options...

@@ -1,3 +1,4 @@
+// utils/md.ts
 import fs, { existsSync } from 'fs'
 import { join } from 'path'
 import matter from 'gray-matter'
@@ -6,17 +7,17 @@ const postsDirectory = join(process.cwd(), 'data/projects')
 
 const FIELDS = [
   'title',
-  'summary',
   'slug',
+  'coverImage',
+  'summary',
+  'content',
   'gitRepository',
   'telegramLink',
+  'website',
   'twitterHandle',
   'discordLink',
   'facebookLink',
   'redditLink',
-  'website',
-  'content',
-  'coverImage',
   'nym',
   'hidden',
   'type',
@@ -31,6 +32,7 @@ const FIELDS = [
   'bountyStatus',
   'targetFunding',
   'fundingDeadline',
+  'serviceFeesCollected',
   'isRecurring',
   'matchingTotal',
   'isMatching',

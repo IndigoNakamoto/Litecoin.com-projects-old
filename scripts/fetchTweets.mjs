@@ -25,7 +25,7 @@ const fetchTweetsByHashtag = async (hashtag) => {
   })
   if (response.statusCode === 200) {
     const tweetsData = response.body
-    console.log(`Full Twitter response for ${hashtag}:`, tweetsData) // Made a small correction here for better logging
+    // console.log(`Full Twitter response for ${hashtag}:`, tweetsData) // Made a small correction here for better logging
 
     if (tweetsData && tweetsData.data) {
       return tweetsData.data.map((tweet) => tweet.id)
@@ -64,8 +64,8 @@ const main = async () => {
           console.error(`exec error: ${error}`)
           return
         }
-        console.log(`stdout: ${stdout}`)
-        console.log(`stderr: ${stderr}`)
+        // console.log(`stdout: ${stdout}`)
+        // console.log(`stderr: ${stderr}`)
       }
     )
   } catch (error) {

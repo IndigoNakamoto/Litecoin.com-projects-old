@@ -118,11 +118,48 @@ export default async function handler(
       return res.status(400).json({ error: 'Outdated event' })
     }
 
+    // Forward to new database-api-server endpoint (non-blocking, for testing)
+    // Set ENABLE_WEBHOOK_FORWARDING=true to enable
+    const enableForwarding = process.env.ENABLE_WEBHOOK_FORWARDING === 'true'
+    const newApiUrl =
+      process.env.DATABASE_API_URL || 'https://projectsapi.lite.space'
+
+    if (enableForwarding) {
+      // Forward to new endpoint asynchronously (don't await - don't block response)
+      fetch(`${newApiUrl}/api/webhook/tgb`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(webhookRequest),
+      })
+        .then(async (response) => {
+          if (response.ok) {
+            const result = await response.json()
+            logger.info('Webhook forwarded to new endpoint successfully:', {
+              eventType: webhookRequest.eventType,
+              result,
+            })
+          } else {
+            const errorText = await response.text()
+            logger.warn('Webhook forwarding failed:', {
+              eventType: webhookRequest.eventType,
+              status: response.status,
+              error: errorText,
+            })
+          }
+        })
+        .catch((error) => {
+          logger.warn('Webhook forwarding error:', {
+            eventType: webhookRequest.eventType,
+            error: error.message,
+          })
+        })
+    }
+
     // Determine the handler function
     const handlerFunction =
       eventHandlers[webhookRequest.eventType] || handleUnknownEvent
 
-    // Process the event
+    // Process the event (existing logic - keep for backward compatibility)
     await handlerFunction(webhookRequest.eventType, decryptedPayload)
 
     // Run the matching logic

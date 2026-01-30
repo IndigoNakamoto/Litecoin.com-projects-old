@@ -14,7 +14,7 @@ export default function ApplyLayout({ children, content }: Props) {
 
   return (
     <>
-      <PageSEO title={`Lite.Space | ${title}`} description={`${summary}`} />
+      <PageSEO title={`Litecoin | ${title}`} description={`${summary}`} />
       <ApplySection title={title}>{children}</ApplySection>
     </>
   )

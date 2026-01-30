@@ -1,3 +1,4 @@
+/* eslint-disable */
 //layouts/FaqLayout.tsx
 
 import { ReactNode, useState } from 'react'
@@ -43,7 +44,7 @@ export default function FAQLayout({ children, content }: Props) {
   return (
     <>
       <PageSEO title={`Lite.Space | ${title}`} description={`${summary}`} />
-      <div className="prose max-w-none pb-8 dark:prose-dark xl:col-span-2 ">
+      <div className="dark:prose-dark prose max-w-none pb-8 xl:col-span-2 ">
         <h1 className="mt-10 font-semibold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:leading-10 md:text-7xl md:leading-14 xs:text-6xl">
           {title}
         </h1>
