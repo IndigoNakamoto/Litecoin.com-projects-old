@@ -121,7 +121,8 @@ export default async function handler(
     // Forward to new database-api-server endpoint (non-blocking, for testing)
     // Set ENABLE_WEBHOOK_FORWARDING=true to enable
     const enableForwarding = process.env.ENABLE_WEBHOOK_FORWARDING === 'true'
-    const newApiUrl = process.env.DATABASE_API_URL || 'https://projectsapi.lite.space'
+    const newApiUrl =
+      process.env.DATABASE_API_URL || 'https://projectsapi.lite.space'
 
     if (enableForwarding) {
       // Forward to new endpoint asynchronously (don't await - don't block response)
